@@ -25,8 +25,7 @@ Protected Class Parser
 
 	#tag Method, Flags = &h21
 		Private Function Block() As DragonBook.Inter.Stmt
-		  // block -> { decls stmts }
-		  Match Asc("{")
+		  Match Asc("{") // block -> { decls stmts }
 		  Dim savedEnv As DragonBook.Symbols.Env= top
 		  top= New DragonBook.Symbols.Env(top)
 		  Decls
@@ -53,25 +52,29 @@ Protected Class Parser
 
 	#tag Method, Flags = &h0
 		Sub Constructor(lex As Lexer, Optional output As Writeable)
-		  Self.lex= lex
-		  Move
-		  
 		  If output Is Nil Then
 		    #if TargetConsole
 		      Out= stdout
 		    #elseif TargetDesktop
-		      Out= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbook.out"))
+		      Out= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbook.txt"))
 		    #endif
 		  Else
 		    Out= output
 		  End If
+		  
+		  // ini counters
+		  DragonBook.Lexer.line= 0
+		  DragonBook.Inter.Node.Labels= 0
+		  DragonBook.Inter.Temp.Count= 0
+		  
+		  Self.lex= lex
+		  Move
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub Decls()
-		  // D -> type ID ;
-		  While look.GetTag= DragonBook.Lexical.Tag.BASIC.ToInteger
+		  While look.GetTag= DragonBook.Lexical.Tag.BASIC.ToInteger // D -> type ID ;
 		    Dim p As DragonBook.Symbols.Type= Type
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Match DragonBook.Lexical.Tag.ID.ToInteger
@@ -79,6 +82,15 @@ Protected Class Parser
 		    top.Put tok, New DragonBook.Inter.Id(DragonBook.Lexical.Word(tok), p, used)
 		    used= used+ p.GetWidth
 		  Wend
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Destructor()
+		  If Out Is Nil Then Return
+		  
+		  Out.Flush
+		  Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -166,7 +178,7 @@ Protected Class Parser
 		      Return Offset(id)
 		    End If
 		  Case Else
-		    Error "syntax error"
+		    Error "unknow token"
 		  End Select
 		End Function
 	#tag EndMethod
@@ -189,7 +201,7 @@ Protected Class Parser
 		  If look.GetTag= t Then
 		    Move
 		  Else
-		    Error "Syntax Error"
+		    Error "unmatch token"
 		  End If
 		End Sub
 	#tag EndMethod
@@ -220,7 +232,7 @@ Protected Class Parser
 		    type= DragonBook.Symbols.Arr(type).OfType
 		    w= New DragonBook.Inter.Constant(type.GetWidth)
 		    t1= New DragonBook.Inter.Arith(New DragonBook.Lexical.Token(Asc("*")), i, w)
-		    t1= New DragonBook.Inter.Arith(New DragonBook.Lexical.Token(Asc("+")), loc, t1)
+		    t2= New DragonBook.Inter.Arith(New DragonBook.Lexical.Token(Asc("+")), loc, t1)
 		    loc= t2
 		  Wend
 		  
@@ -230,8 +242,7 @@ Protected Class Parser
 
 	#tag Method, Flags = &h0
 		Sub Program()
-		  // program -> block
-		  Dim s As DragonBook.Inter.Stmt= Block
+		  Dim s As DragonBook.Inter.Stmt= Block // program -> block
 		  
 		  Dim begin As Integer= s.Newlabel
 		  Dim after As Integer= s.Newlabel
@@ -274,7 +285,7 @@ Protected Class Parser
 		    s1= Stmt
 		    If look.GetTag<> DragonBook.Lexical.Tag.ELSE_.ToInteger Then Return New DragonBook.Inter.IfStmt(x, s1)
 		    Match DragonBook.Lexical.Tag.ELSE_.ToInteger
-		    s1= Stmt
+		    s2= Stmt
 		    Return New DragonBook.Inter.ElseStmt(x, s1, s2)
 		  Case DragonBook.Lexical.Tag.WHILE_.ToInteger
 		    Dim whilenode As New DragonBook.Inter.WhileStmt

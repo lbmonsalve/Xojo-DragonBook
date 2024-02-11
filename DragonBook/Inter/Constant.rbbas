@@ -8,7 +8,7 @@ Inherits DragonBook.Inter.Expr
 		  // Possible constructor calls:
 		  // Constructor(tok As DragonBook.Lexical.Token, p As DragonBook.Symbols.Type) -- From Expr
 		  // Constructor() -- From Node
-		  Super.Constructor New DragonBook.Lexical.Num(i), DragonBook.Symbols.Type.Bool
+		  Super.Constructor New DragonBook.Lexical.Num(i), DragonBook.Symbols.Type.Int
 		End Sub
 	#tag EndMethod
 

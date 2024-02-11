@@ -35,7 +35,10 @@ Inherits DragonBook.Inter.Node
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return New Stmt
+			  Static value As Stmt
+			  If value Is Nil Then value= New Stmt
+			  
+			  Return value
 			End Get
 		#tag EndGetter
 		Shared Null As Stmt

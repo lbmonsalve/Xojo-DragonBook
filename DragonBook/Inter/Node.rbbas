@@ -29,15 +29,15 @@ Protected Class Node
 
 	#tag Method, Flags = &h0
 		Function Newlabel() As Integer
-		  labels= labels+ 1
+		  Labels= Labels+ 1
 		  
-		  Return labels
+		  Return Labels
 		End Function
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h21
-		Private Shared labels As Integer
+	#tag Property, Flags = &h0
+		Shared Labels As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

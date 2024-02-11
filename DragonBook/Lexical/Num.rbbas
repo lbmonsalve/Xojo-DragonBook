@@ -12,7 +12,7 @@ Inherits DragonBook.Lexical.Token
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  Return Chr(Value)
+		  Return Str(Value)
 		End Function
 	#tag EndMethod
 

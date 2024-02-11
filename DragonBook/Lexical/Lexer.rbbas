@@ -4,6 +4,7 @@ Protected Class Lexer
 		Sub Constructor(source As Readable)
 		  Self.source= source
 		  peek= " "
+		  
 		  words= New Dictionary
 		  
 		  Reserve(New Word("if", Tag.IF_.ToInteger))
@@ -52,15 +53,14 @@ Protected Class Lexer
 	#tag Method, Flags = &h0
 		Function Scan() As Token
 		  While True
-		    If peek= " " Or peek.Asc= TAB Or peek.Asc= CR Then
-		      ReadCh
-		      Continue
-		    ElseIf peek.Asc= LF Then
+		    If peek= " " Or peek.Asc= TAB Then
+		      'ReadCh
+		    ElseIf peek.Asc= CR Then // peek.Asc= LF
 		      line= line+ 1
-		      ReadCh
 		    Else
 		      Exit
 		    End If
+		    ReadCh
 		  Wend
 		  
 		  Select Case peek
@@ -131,7 +131,7 @@ Protected Class Lexer
 
 
 	#tag Property, Flags = &h0
-		Shared line As Integer = 1
+		Shared line As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

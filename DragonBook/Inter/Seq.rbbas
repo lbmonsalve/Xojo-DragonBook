@@ -21,7 +21,7 @@ Inherits DragonBook.Inter.Stmt
 		    Dim label As Integer= Newlabel
 		    Stmt1.Gen(b, label)
 		    Emitlabel label
-		    Stmt1.Gen(label, a)
+		    Stmt2.Gen(label, a)
 		  End If
 		End Sub
 	#tag EndMethod

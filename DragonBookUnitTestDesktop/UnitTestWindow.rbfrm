@@ -86,7 +86,7 @@ Begin Window UnitTestWindow
          Bold            =   ""
          ButtonStyle     =   0
          Cancel          =   ""
-         Caption         =   "Test"
+         Caption         =   "Load"
          Default         =   ""
          Enabled         =   True
          Height          =   30
@@ -102,6 +102,129 @@ Begin Window UnitTestWindow
          LockTop         =   True
          Scope           =   0
          TabIndex        =   0
+         TabPanelIndex   =   2
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   16
+         TextUnit        =   0
+         Top             =   50
+         Underline       =   ""
+         Visible         =   True
+         Width           =   80
+      End
+      Begin TextArea TextArea1
+         AcceptTabs      =   ""
+         Alignment       =   0
+         AutoDeactivate  =   True
+         AutomaticallyCheckSpelling=   False
+         BackColor       =   &hFFFFFF
+         Bold            =   False
+         Border          =   True
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Format          =   ""
+         Height          =   471
+         HelpTag         =   ""
+         HideSelection   =   True
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   20
+         LimitText       =   0
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         Mask            =   ""
+         Multiline       =   True
+         ReadOnly        =   False
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollbarVertical=   True
+         Styled          =   False
+         TabIndex        =   2
+         TabPanelIndex   =   2
+         TabStop         =   True
+         Text            =   "{\r\n	int a; int b; int c; int d;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;\r\n}"
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   16
+         TextUnit        =   0
+         Top             =   109
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   360
+      End
+      Begin TextArea TextArea2
+         AcceptTabs      =   ""
+         Alignment       =   0
+         AutoDeactivate  =   True
+         AutomaticallyCheckSpelling=   False
+         BackColor       =   &hFFFFFF
+         Bold            =   ""
+         Border          =   True
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Format          =   ""
+         Height          =   471
+         HelpTag         =   ""
+         HideSelection   =   True
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   420
+         LimitText       =   0
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   True
+         Mask            =   ""
+         Multiline       =   True
+         ReadOnly        =   False
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollbarVertical=   True
+         Styled          =   False
+         TabIndex        =   3
+         TabPanelIndex   =   2
+         TabStop         =   True
+         Text            =   ""
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   16
+         TextUnit        =   0
+         Top             =   109
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   360
+      End
+      Begin PushButton PushButton2
+         AutoDeactivate  =   True
+         Bold            =   ""
+         ButtonStyle     =   0
+         Cancel          =   ""
+         Caption         =   "Generate"
+         Default         =   ""
+         Enabled         =   True
+         Height          =   30
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   112
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Scope           =   0
+         TabIndex        =   1
          TabPanelIndex   =   2
          TabStop         =   True
          TextFont        =   "System"
@@ -145,19 +268,71 @@ End
 	#tag EndMenuHandler
 
 
-	#tag Constant, Name = kExpr5, Type = String, Dynamic = False, Default = \"{\r\tint a; int b; int c; int d;\r\t a \x3D 9; b \x3D 5; c \x3D 2;\r\td \x3D a + b * c + a * b;\r}", Scope = Private
-	#tag EndConstant
-
-
 #tag EndWindowCode
 
+#tag Events TabPanel1
+	#tag Event
+		Sub Open()
+		  TabPanel1.Value= 1
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events PushButton1
 	#tag Event
 		Sub Action()
-		  Dim bs As New BinaryStream(kExpr5)
-		  Dim parser As New DragonBook.Parser(New DragonBook.Lexer(bs))
-		  parser.Program
-		  Break
+		  Dim txtType As New FileType
+		  txtType.Name = "text/plain"
+		  txtType.MacType = "TXT "
+		  txtType.Extensions = "txt;t"
+		  
+		  Dim f As FolderItem= GetOpenFolderItem(txtType)
+		  If f Is Nil Then Return
+		  Dim t As TextInputStream= TextInputStream.Open(f)
+		  TextArea1.Text= t.ReadAll
+		  
+		  
+		  'Dim line As Integer
+		  '
+		  'While Not bs.EOF
+		  'Dim peek As String= bs.Read(1)
+		  'TextArea1.AppendText peek+ "("+ Str(Asc(peek))+ ")"+ EndOfLine
+		  '
+		  'If peek= " " Or peek= Chr(9) Then
+		  ''TextArea1.AppendText "ws: ("+ Str(Asc(peek))+ ")"+ EndOfLine
+		  'ElseIf peek= Chr(13) Then
+		  'line= line+ 1
+		  'ElseIf peek= Chr(10) Then
+		  'line= line+ 1
+		  'Break
+		  'Else
+		  ''TextArea1.AppendText peek+ "("+ Str(Asc(peek))+ ")"+ EndOfLine
+		  'End If
+		  'Wend
+		  '
+		  'TextArea1.AppendText EndOfLine+ "lines: "+ Str(line)+ EndOfLine
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events PushButton2
+	#tag Event
+		Sub Action()
+		  Dim bsIn As New BinaryStream(TextArea1.Text)
+		  Dim mbOut As New MemoryBlock(1)
+		  Dim bsOut As New BinaryStream(mbOut)
+		  
+		  Dim parser As New DragonBook.Parser(New DragonBook.Lexer(bsIn), bsOut)
+		  
+		  Try
+		    #pragma BreakOnExceptions Off
+		    parser.Program
+		    #pragma BreakOnExceptions Default
+		  Catch exc As RuntimeException
+		    TextArea2.AppendText "error "+ exc.Message+ EndOfLine
+		    Return
+		  End Try
+		  
+		  TextArea2.AppendText mbOut.StringValue(0, mbOut.Size)+ EndOfLine
+		  TextArea2.AppendText EndOfLine+ EndOfLine
 		End Sub
 	#tag EndEvent
 #tag EndEvents

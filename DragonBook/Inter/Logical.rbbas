@@ -3,7 +3,8 @@ Protected Class Logical
 Inherits DragonBook.Inter.Expr
 	#tag Method, Flags = &h0
 		Function Check(p1 As DragonBook.Symbols.Type, p2 As DragonBook.Symbols.Type) As DragonBook.Symbols.Type
-		  If p1 Is DragonBook.Symbols.Type.Bool And p2 Is DragonBook.Symbols.Type.Bool Then Return p1
+		  If p1= DragonBook.Symbols.Type.Bool And p2= DragonBook.Symbols.Type.Bool Then _
+		  Return DragonBook.Symbols.Type.Bool
 		  
 		  Return Nil
 		End Function
@@ -19,7 +20,7 @@ Inherits DragonBook.Inter.Expr
 		  Super.Constructor tok, Nil
 		  Expr1= x1
 		  Expr2= x2
-		  type= DragonBook.Symbols.Type.Max(Expr1.type, Expr2.type)
+		  type= Check(Expr1.type, Expr2.type)
 		  If type Is Nil Then Error("type error")
 		End Sub
 	#tag EndMethod

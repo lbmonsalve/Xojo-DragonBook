@@ -4,7 +4,7 @@ Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h0
 		Function Check(p1 As DragonBook.Symbols.Type, p2 As DragonBook.Symbols.Type) As DragonBook.Symbols.Type
 		  If p1 IsA DragonBook.Symbols.Arr Or p2 IsA DragonBook.Symbols.Arr Then Return Nil
-		  If p1 Is p2 Then Return p2
+		  If p1= p2 Then Return p2
 		  If DragonBook.Symbols.Type.IsNumeric(p1) And DragonBook.Symbols.Type.IsNumeric(p2) Then Return p2
 		  
 		  Return Nil

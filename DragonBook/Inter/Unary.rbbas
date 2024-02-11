@@ -15,6 +15,18 @@ Inherits DragonBook.Inter.Op
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function Gen() As DragonBook.Inter.Expr
+		  Return New DragonBook.Inter.Unary(Op, Expr.Reduce)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToString() As String
+		  Return Op.ToString+ " "+ Expr.ToString
+		End Function
+	#tag EndMethod
+
 
 	#tag Property, Flags = &h0
 		Expr As DragonBook.Inter.Expr
