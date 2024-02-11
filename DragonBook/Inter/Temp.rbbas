@@ -16,14 +16,20 @@ Inherits DragonBook.Inter.Expr
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Sub ResetCount()
+		  Count= 0
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ToString() As String
 		  Return "t"+ Str(Number)
 		End Function
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
-		Shared Count As Integer
+	#tag Property, Flags = &h21
+		Private Shared Count As Integer
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

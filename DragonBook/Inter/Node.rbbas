@@ -1,12 +1,6 @@
 #tag Class
 Protected Class Node
 	#tag Method, Flags = &h0
-		Sub Constructor()
-		  lexline= Lexer.line
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Emit(s As String)
 		  OutPrintLn Chr(9)+ s
 		End Sub
@@ -19,9 +13,9 @@ Protected Class Node
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Error(s As String)
+		Sub Error(s As String, line As Integer = 0)
 		  Dim exc As New RuntimeException
-		  exc.Message= "near line "+ Str(lexline)+ ": "+ s
+		  exc.Message= "near line "+ Str(line)+ ": "+ s
 		  
 		  Raise exc
 		End Sub
@@ -35,13 +29,15 @@ Protected Class Node
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		 Shared Sub ResetLabels()
+		  Labels= 0
+		End Sub
+	#tag EndMethod
 
-	#tag Property, Flags = &h0
-		Shared Labels As Integer
-	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private lexline As Integer
+		Private Shared Labels As Integer
 	#tag EndProperty
 
 

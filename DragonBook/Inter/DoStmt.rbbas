@@ -1,6 +1,18 @@
 #tag Class
 Protected Class DoStmt
 Inherits DragonBook.Inter.Stmt
+	#tag Method, Flags = &h1000
+		Sub Constructor()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1000
+		Sub Constructor(s As DragonBook.Inter.Stmt, x As DragonBook.Inter.Expr)
+		  Init s, x
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub Gen(b As Integer, a As Integer)
 		  after= a // save label a

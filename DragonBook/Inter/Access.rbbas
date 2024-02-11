@@ -8,7 +8,7 @@ Inherits DragonBook.Inter.Op
 		  // Possible constructor calls:
 		  // Constructor(tok As DragonBook.Lexical.Token, p As DragonBook.Symbols.Type) -- From Expr
 		  // Constructor() -- From Node
-		  Super.Constructor New DragonBook.Lexical.Word("[]", DragonBook.Lexical.Tag.INDEX.ToInteger), p
+		  Super.Constructor New DragonBook.Lexical.Word("[]", Tag.INDEX.ToInteger), p
 		  IdArray= a
 		  Index= i
 		End Sub
@@ -28,7 +28,7 @@ Inherits DragonBook.Inter.Op
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  Return IdArray.ToString+ " [ "+ Index.ToString+ " ]"
+		  Return IdArray.ToString+ "[ "+ Index.ToString+ " ]"
 		End Function
 	#tag EndMethod
 

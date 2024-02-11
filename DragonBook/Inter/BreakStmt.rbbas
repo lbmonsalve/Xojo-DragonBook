@@ -3,9 +3,6 @@ Protected Class BreakStmt
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
 		Sub Constructor()
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  If DragonBook.Inter.Stmt.Enclosing= DragonBook.Inter.Stmt.Null Then Error "unenclosed break"
 		  Stmt= DragonBook.Inter.Stmt.Enclosing
 		End Sub

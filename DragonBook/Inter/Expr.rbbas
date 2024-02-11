@@ -3,9 +3,6 @@ Protected Class Expr
 Inherits DragonBook.Inter.Node
 	#tag Method, Flags = &h1000
 		Sub Constructor(tok As DragonBook.Lexical.Token, p As DragonBook.Symbols.Type)
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  op= tok
 		  type= p
 		End Sub

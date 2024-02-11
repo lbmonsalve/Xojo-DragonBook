@@ -5,7 +5,7 @@ Protected Class Parser
 		  Dim s As DragonBook.Inter.Stmt
 		  Dim t As DragonBook.Lexical.Token= look
 		  
-		  Match DragonBook.Lexical.Tag.ID.ToInteger
+		  Match Tag.ID.ToInteger
 		  Dim id As DragonBook.Inter.Id= top.Get(t)
 		  If id Is Nil Then Error(t.ToString+ " undeclared")
 		  
@@ -40,7 +40,7 @@ Protected Class Parser
 	#tag Method, Flags = &h21
 		Private Function Bool() As DragonBook.Inter.Expr
 		  Dim x As DragonBook.Inter.Expr= Join
-		  While look.GetTag= DragonBook.Lexical.Tag.OR_.ToInteger
+		  While look.GetTag= Tag.OR_.ToInteger
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
 		    x= New DragonBook.Inter.OrStmt(tok, x, Join)
@@ -62,10 +62,8 @@ Protected Class Parser
 		    Out= output
 		  End If
 		  
-		  // ini counters
-		  DragonBook.Lexer.line= 0
-		  DragonBook.Inter.Node.Labels= 0
-		  DragonBook.Inter.Temp.Count= 0
+		  DragonBook.Inter.Node.ResetLabels
+		  DragonBook.Inter.Temp.ResetCount
 		  
 		  Self.lex= lex
 		  Move
@@ -74,12 +72,12 @@ Protected Class Parser
 
 	#tag Method, Flags = &h21
 		Private Sub Decls()
-		  While look.GetTag= DragonBook.Lexical.Tag.BASIC.ToInteger // D -> type ID ;
+		  While look.GetTag= Tag.BASIC.ToInteger // D -> type ID ;
 		    Dim p As DragonBook.Symbols.Type= Type
 		    Dim tok As DragonBook.Lexical.Token= look
-		    Match DragonBook.Lexical.Tag.ID.ToInteger
+		    Match Tag.ID.ToInteger
 		    Match Asc(";")
-		    top.Put tok, New DragonBook.Inter.Id(DragonBook.Lexical.Word(tok), p, used)
+		    top.Put tok, New DragonBook.Inter.Id(DragonBook.Lexical.Word(tok), p)
 		    used= used+ p.GetWidth
 		  Wend
 		End Sub
@@ -98,7 +96,7 @@ Protected Class Parser
 		Private Function Dims(p As DragonBook.Symbols.Type) As DragonBook.Symbols.Type
 		  Match Asc("[")
 		  Dim tok As DragonBook.Lexical.Token= look
-		  Match DragonBook.Lexical.Tag.NUM.ToInteger
+		  Match Tag.NUM.ToInteger
 		  Match Asc("]")
 		  
 		  If look.GetTag= Asc("[") Then p= Dims(p)
@@ -110,7 +108,7 @@ Protected Class Parser
 	#tag Method, Flags = &h21
 		Private Function Equality() As DragonBook.Inter.Expr
 		  Dim x As DragonBook.Inter.Expr= Rel
-		  While look.GetTag= DragonBook.Lexical.Tag.EQ.ToInteger Or look.GetTag= DragonBook.Lexical.Tag.NE.ToInteger
+		  While look.GetTag= Tag.EQ.ToInteger Or look.GetTag= Tag.NE.ToInteger
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
 		    x= New DragonBook.Inter.Rel(tok, x, Rel)
@@ -151,24 +149,23 @@ Protected Class Parser
 		    x= Bool
 		    Match Asc(")")
 		    Return x
-		  Case DragonBook.Lexical.Tag.NUM.ToInteger
+		  Case Tag.NUM.ToInteger
 		    x= New DragonBook.Inter.Constant(look, DragonBook.Symbols.Type.Int)
 		    Move
 		    Return x
-		  Case DragonBook.Lexical.Tag.REAL.ToInteger
+		  Case Tag.REAL.ToInteger
 		    x= New DragonBook.Inter.Constant(look, DragonBook.Symbols.Type.Float)
 		    Move
 		    Return x
-		  Case DragonBook.Lexical.Tag.TRUE_.ToInteger
+		  Case Tag.TRUE_.ToInteger
 		    x= DragonBook.Inter.Constant.True_
 		    Move
 		    Return x
-		  Case DragonBook.Lexical.Tag.FALSE_.ToInteger
+		  Case Tag.FALSE_.ToInteger
 		    x= DragonBook.Inter.Constant.False_
 		    Move
 		    Return x
-		  Case DragonBook.Lexical.Tag.ID.ToInteger
-		    Dim s As String= look.ToString
+		  Case Tag.ID.ToInteger
 		    Dim id As DragonBook.Inter.Id= top.Get(look)
 		    If id Is Nil Then Error(look.toString+ " undeclared")
 		    Move
@@ -186,7 +183,7 @@ Protected Class Parser
 	#tag Method, Flags = &h21
 		Private Function Join() As DragonBook.Inter.Expr
 		  Dim x As DragonBook.Inter.Expr= Equality
-		  While look.GetTag= DragonBook.Lexical.Tag.AND_.ToInteger
+		  While look.GetTag= Tag.AND_.ToInteger
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
 		    x= New DragonBook.Inter.AndStmt(tok, x, Equality)
@@ -242,13 +239,13 @@ Protected Class Parser
 
 	#tag Method, Flags = &h0
 		Sub Program()
-		  Dim s As DragonBook.Inter.Stmt= Block // program -> block
+		  Dim syntaxTree As DragonBook.Inter.Stmt= Block // program -> block
 		  
-		  Dim begin As Integer= s.Newlabel
-		  Dim after As Integer= s.Newlabel
-		  s.Emitlabel begin
-		  s.Gen begin, after
-		  s.Emitlabel after
+		  Dim begin As Integer= syntaxTree.Newlabel
+		  Dim after As Integer= syntaxTree.Newlabel
+		  syntaxTree.Emitlabel begin
+		  syntaxTree.Gen begin, after
+		  syntaxTree.Emitlabel after
 		  
 		End Sub
 	#tag EndMethod
@@ -257,7 +254,7 @@ Protected Class Parser
 		Private Function Rel() As DragonBook.Inter.Expr
 		  Dim x As DragonBook.Inter.Expr= Expr
 		  Select Case look.GetTag
-		  Case Asc("<"), DragonBook.Lexical.Tag.LE.ToInteger, DragonBook.Lexical.Tag.GE.ToInteger, Asc(">")
+		  Case Asc("<"), Tag.LE.ToInteger, Tag.GE.ToInteger, Asc(">")
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
 		    Return New DragonBook.Inter.Rel(tok, x, Expr)
@@ -270,28 +267,28 @@ Protected Class Parser
 	#tag Method, Flags = &h21
 		Private Function Stmt() As DragonBook.Inter.Stmt
 		  Dim x As DragonBook.Inter.Expr
-		  Dim s, s1, s2 As DragonBook.Inter.Stmt
+		  Dim s1, s2 As DragonBook.Inter.Stmt
 		  Dim savedStmt As DragonBook.Inter.Stmt // save enclosing loop for breaks
 		  
 		  Select Case look.GetTag
 		  Case Asc(";")
 		    Move
 		    Return DragonBook.Inter.Stmt.Null
-		  Case DragonBook.Lexical.Tag.IF_.ToInteger
-		    Match DragonBook.Lexical.Tag.IF_.ToInteger
+		  Case Tag.IF_.ToInteger
+		    Move // Match Tag.IF_.ToInteger
 		    Match Asc("(")
 		    x= Bool
 		    Match Asc(")")
 		    s1= Stmt
-		    If look.GetTag<> DragonBook.Lexical.Tag.ELSE_.ToInteger Then Return New DragonBook.Inter.IfStmt(x, s1)
-		    Match DragonBook.Lexical.Tag.ELSE_.ToInteger
+		    If look.GetTag<> Tag.ELSE_.ToInteger Then Return New DragonBook.Inter.IfStmt(x, s1)
+		    Match Tag.ELSE_.ToInteger
 		    s2= Stmt
 		    Return New DragonBook.Inter.ElseStmt(x, s1, s2)
-		  Case DragonBook.Lexical.Tag.WHILE_.ToInteger
+		  Case Tag.WHILE_.ToInteger
 		    Dim whilenode As New DragonBook.Inter.WhileStmt
 		    savedStmt = DragonBook.Inter.Stmt.Enclosing
 		    DragonBook.Inter.Stmt.Enclosing= whilenode
-		    Match DragonBook.Lexical.Tag.WHILE_.ToInteger
+		    Move // Match Tag.WHILE_.ToInteger
 		    Match Asc("(")
 		    x= Bool
 		    Match Asc(")")
@@ -299,13 +296,13 @@ Protected Class Parser
 		    whilenode.Init x, s1
 		    DragonBook.Inter.Stmt.Enclosing = savedStmt  // reset Stmt.Enclosing
 		    Return whilenode
-		  Case DragonBook.Lexical.Tag.DO_.ToInteger
+		  Case Tag.DO_.ToInteger
 		    Dim donode As New DragonBook.Inter.DoStmt
 		    savedStmt = DragonBook.Inter.Stmt.Enclosing
 		    DragonBook.Inter.Stmt.Enclosing= donode
-		    Match DragonBook.Lexical.Tag.DO_.ToInteger
+		    Move // Match Tag.DO_.ToInteger
 		    s1= Stmt
-		    Match DragonBook.Lexical.Tag.WHILE_.ToInteger
+		    Match Tag.WHILE_.ToInteger
 		    Match Asc("(")
 		    x= Bool
 		    Match Asc(")")
@@ -313,8 +310,8 @@ Protected Class Parser
 		    donode.Init s1, x
 		    DragonBook.Inter.Stmt.Enclosing = savedStmt  // reset Stmt.Enclosing
 		    Return donode
-		  Case DragonBook.Lexical.Tag.BREAK_.ToInteger
-		    Match DragonBook.Lexical.Tag.BREAK_.ToInteger
+		  Case Tag.BREAK_.ToInteger
+		    Move // Match Tag.BREAK_.ToInteger
 		    Match Asc(";")
 		    Return New DragonBook.Inter.BreakStmt
 		  Case Asc("{")
@@ -348,7 +345,7 @@ Protected Class Parser
 	#tag Method, Flags = &h21
 		Private Function Type() As DragonBook.Symbols.Type
 		  Dim p As DragonBook.Symbols.Type= DragonBook.Symbols.Type(look)
-		  Match DragonBook.Lexical.Tag.BASIC.ToInteger
+		  Match Tag.BASIC.ToInteger
 		  If look.GetTag<> Asc("[") Then Return p
 		  
 		  Return Dims(p)

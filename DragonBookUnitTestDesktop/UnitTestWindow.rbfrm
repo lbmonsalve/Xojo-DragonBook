@@ -112,52 +112,6 @@ Begin Window UnitTestWindow
          Visible         =   True
          Width           =   80
       End
-      Begin TextArea TextArea1
-         AcceptTabs      =   ""
-         Alignment       =   0
-         AutoDeactivate  =   True
-         AutomaticallyCheckSpelling=   False
-         BackColor       =   &hFFFFFF
-         Bold            =   False
-         Border          =   True
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Format          =   ""
-         Height          =   471
-         HelpTag         =   ""
-         HideSelection   =   True
-         Index           =   -2147483648
-         InitialParent   =   "TabPanel1"
-         Italic          =   ""
-         Left            =   20
-         LimitText       =   0
-         LockBottom      =   True
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   True
-         Mask            =   ""
-         Multiline       =   True
-         ReadOnly        =   False
-         Scope           =   0
-         ScrollbarHorizontal=   ""
-         ScrollbarVertical=   True
-         Styled          =   False
-         TabIndex        =   2
-         TabPanelIndex   =   2
-         TabStop         =   True
-         Text            =   "{\r\n	int a; int b; int c; int d;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;\r\n}"
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   16
-         TextUnit        =   0
-         Top             =   109
-         Underline       =   ""
-         UseFocusRing    =   True
-         Visible         =   True
-         Width           =   360
-      End
       Begin TextArea TextArea2
          AcceptTabs      =   ""
          Alignment       =   0
@@ -217,11 +171,11 @@ Begin Window UnitTestWindow
          Index           =   -2147483648
          InitialParent   =   "TabPanel1"
          Italic          =   ""
-         Left            =   112
+         Left            =   420
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   True
          Scope           =   0
          TabIndex        =   1
@@ -234,6 +188,95 @@ Begin Window UnitTestWindow
          Underline       =   ""
          Visible         =   True
          Width           =   80
+      End
+      Begin TextArea TextArea1
+         AcceptTabs      =   True
+         Alignment       =   0
+         AutoDeactivate  =   True
+         AutomaticallyCheckSpelling=   False
+         BackColor       =   &hFFFFFF
+         Bold            =   ""
+         Border          =   True
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Format          =   ""
+         Height          =   471
+         HelpTag         =   ""
+         HideSelection   =   True
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   20
+         LimitText       =   0
+         LockBottom      =   True
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         Mask            =   ""
+         Multiline       =   True
+         ReadOnly        =   ""
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollbarVertical=   True
+         Styled          =   False
+         TabIndex        =   2
+         TabPanelIndex   =   2
+         TabStop         =   True
+         Text            =   "{\r\n	int a; int b; int c; int d;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;\r\n}"
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   16
+         TextUnit        =   0
+         Top             =   109
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   360
+      End
+      Begin TextField TextField1
+         AcceptTabs      =   ""
+         Alignment       =   0
+         AutoDeactivate  =   False
+         AutomaticallyCheckSpelling=   False
+         BackColor       =   &hFFFFFF
+         Bold            =   ""
+         Border          =   False
+         CueText         =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Format          =   ""
+         Height          =   30
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "TabPanel1"
+         Italic          =   ""
+         Left            =   112
+         LimitText       =   0
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   True
+         Mask            =   ""
+         Password        =   ""
+         ReadOnly        =   False
+         Scope           =   0
+         TabIndex        =   4
+         TabPanelIndex   =   2
+         TabStop         =   True
+         Text            =   ""
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   16
+         TextUnit        =   0
+         Top             =   51
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   268
       End
    End
 End
@@ -273,7 +316,7 @@ End
 #tag Events TabPanel1
 	#tag Event
 		Sub Open()
-		  TabPanel1.Value= 1
+		  'TabPanel1.Value= 1
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -289,6 +332,7 @@ End
 		  If f Is Nil Then Return
 		  Dim t As TextInputStream= TextInputStream.Open(f)
 		  TextArea1.Text= t.ReadAll
+		  TextField1.Text= f.DisplayName
 		  
 		  
 		  'Dim line As Integer
@@ -317,8 +361,8 @@ End
 	#tag Event
 		Sub Action()
 		  Dim bsIn As New BinaryStream(TextArea1.Text)
-		  Dim mbOut As New MemoryBlock(1)
-		  Dim bsOut As New BinaryStream(mbOut)
+		  Dim mb As New MemoryBlock(1)
+		  Dim bsOut As New BinaryStream(mb)
 		  
 		  Dim parser As New DragonBook.Parser(New DragonBook.Lexer(bsIn), bsOut)
 		  
@@ -331,7 +375,7 @@ End
 		    Return
 		  End Try
 		  
-		  TextArea2.AppendText mbOut.StringValue(0, mbOut.Size)+ EndOfLine
+		  TextArea2.AppendText mb.StringValue(0, mb.Size)+ EndOfLine
 		  TextArea2.AppendText EndOfLine+ EndOfLine
 		End Sub
 	#tag EndEvent

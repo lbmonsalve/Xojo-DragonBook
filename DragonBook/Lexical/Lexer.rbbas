@@ -118,7 +118,7 @@ Protected Class Lexer
 		      Return ret
 		    End If
 		    
-		    Dim w As New Word(s, DragonBook.Lexical.Tag.ID.ToInteger)
+		    Dim w As New Word(s, Tag.ID.ToInteger)
 		    words.Value(s)= w
 		    Return w
 		  End If
@@ -130,8 +130,8 @@ Protected Class Lexer
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
-		Shared line As Integer
+	#tag Property, Flags = &h21
+		Private line As Integer = 1
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

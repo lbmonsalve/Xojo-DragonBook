@@ -9,7 +9,7 @@ Inherits DragonBook.Symbols.Type
 		  // Constructor(s As String, tag As Integer, w As Integer) -- From Type
 		  // Constructor(s As String, tag As Integer) -- From Word
 		  // Constructor(t As Integer) -- From Token
-		  Super.Constructor("[]", DragonBook.Lexical.Tag.INDEX.ToInteger, size* p.GetWidth)
+		  Super.Constructor("[]", Tag.INDEX.ToInteger, size* p.GetWidth)
 		  Self.Size= size
 		  OfType= p
 		  

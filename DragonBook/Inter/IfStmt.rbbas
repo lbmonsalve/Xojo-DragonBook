@@ -3,9 +3,6 @@ Protected Class IfStmt
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
 		Sub Constructor(x As DragonBook.Inter.Expr, s As DragonBook.Inter.Stmt)
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  Expr= x
 		  Stmt= s
 		  If Expr.type<> DragonBook.Symbols.Type.Bool Then Expr.Error("boolean required in if")

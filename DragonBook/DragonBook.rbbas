@@ -1,11 +1,17 @@
 #tag Module
 Protected Module DragonBook
 	#tag Method, Flags = &h0
+		Function FrmtEsc(Extends s As String) As String
+		  Return s.ReplaceAll("\t", Chr(9)).ReplaceAll("\n", EndOfLine)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function IsLetter(Extends value As String) As Boolean
 		  Static rg As RegEx
 		  If rg Is Nil Then
 		    rg= New RegEx
-		    rg.SearchPattern= "[a-zA-ZÀ-ÖØ-öø-ÿ]"
+		    rg.SearchPattern= "\w"
 		  End If
 		  
 		  Return Not (rg.Search(value) Is Nil)
@@ -18,8 +24,8 @@ Protected Module DragonBook
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub OutPrint(s As String)
+	#tag Method, Flags = &h1
+		Protected Sub OutPrint(s As String)
 		  If Parser.Out Is Nil Then
 		    System.DebugLog s
 		  Else
@@ -28,17 +34,41 @@ Protected Module DragonBook
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub OutPrintLn(s As String)
+	#tag Method, Flags = &h1
+		Protected Sub OutPrintLn(s As String)
 		  OutPrint s+ EndOfLine
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ToInteger(Extends value As DragonBook.Lexical.Tag) As Integer
+		Function ToInteger(Extends value As DragonBook.Tag) As Integer
 		  Return CType(value, Integer)
 		End Function
 	#tag EndMethod
+
+
+	#tag Enum, Name = Tag, Flags = &h1
+		AND_ = 256
+		  BASIC = 257
+		  BREAK_ = 258
+		  DO_ = 259
+		  ELSE_ = 260
+		  EQ = 261
+		  FALSE_ = 262
+		  GE = 263
+		  ID = 264
+		  IF_ = 265
+		  INDEX = 266
+		  LE = 267
+		  MINUS = 268
+		  NE = 269
+		  NUM = 270
+		  OR_ = 271
+		  REAL = 272
+		  TEMP = 273
+		  TRUE_ = 274
+		WHILE_ = 275
+	#tag EndEnum
 
 
 	#tag ViewBehavior

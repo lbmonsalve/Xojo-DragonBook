@@ -40,7 +40,7 @@ Inherits DragonBook.Lexical.Word
 		#tag Getter
 			Get
 			  Static value As Type
-			  If value Is Nil Then value= New Type("bool", DragonBook.Lexical.Tag.BASIC.ToInteger, 1)
+			  If value Is Nil Then value= New Type("bool", Tag.BASIC.ToInteger, 1)
 			  
 			  Return value
 			End Get
@@ -52,7 +52,7 @@ Inherits DragonBook.Lexical.Word
 		#tag Getter
 			Get
 			  Static value As Type
-			  If value Is Nil Then value= New Type("char", DragonBook.Lexical.Tag.BASIC.ToInteger, 1)
+			  If value Is Nil Then value= New Type("char", Tag.BASIC.ToInteger, 1)
 			  
 			  Return value
 			End Get
@@ -64,7 +64,7 @@ Inherits DragonBook.Lexical.Word
 		#tag Getter
 			Get
 			  Static value As Type
-			  If value Is Nil Then value= New Type("float", DragonBook.Lexical.Tag.BASIC.ToInteger, 8)
+			  If value Is Nil Then value= New Type("float", Tag.BASIC.ToInteger, 8)
 			  
 			  Return value
 			End Get
@@ -76,7 +76,7 @@ Inherits DragonBook.Lexical.Word
 		#tag Getter
 			Get
 			  Static value As Type
-			  If value Is Nil Then value= New Type("int", DragonBook.Lexical.Tag.BASIC.ToInteger, 4)
+			  If value Is Nil Then value= New Type("int", Tag.BASIC.ToInteger, 4)
 			  
 			  Return value
 			End Get

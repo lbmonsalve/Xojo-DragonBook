@@ -13,9 +13,6 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h1000
 		Sub Constructor(x As DragonBook.Inter.Access, y As DragonBook.Inter.Expr)
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  IdArray= x.IdArray
 		  Index= x.Index
 		  Expr= y
@@ -26,7 +23,7 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h0
 		Sub Gen(b As Integer, a As Integer)
-		  Emit IdArray.ToString+ " [ "+ Index.Reduce.ToString+ " ] "+ Expr.Reduce.ToString
+		  Emit IdArray.ToString+ " [ "+ Index.Reduce.ToString+ " ] = "+ Expr.Reduce.ToString
 		End Sub
 	#tag EndMethod
 

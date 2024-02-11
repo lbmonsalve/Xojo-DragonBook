@@ -9,7 +9,9 @@ Inherits TestController
 		  
 		  group = New UnitTestsDefault(Self, "Default")
 		  group = New UnitTestsFail(Self, "Always Fail")
-		  
+		  group = New InterTests(Self, "InterTests")
+		  group = New LexicalTests(Self, "LexicalTests")
+		  group = New ParserTests(Self, "ParserTests")
 		End Sub
 	#tag EndEvent
 

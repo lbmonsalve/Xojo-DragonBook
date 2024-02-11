@@ -12,7 +12,11 @@ Inherits DragonBook.Lexical.Token
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  Return Str(Value, "-###########0.0######")
+		  #if TargetConsole
+		    Return Str(Value)
+		  #else
+		    Return Str(Value, "-###########0.0######")
+		  #endif
 		End Function
 	#tag EndMethod
 

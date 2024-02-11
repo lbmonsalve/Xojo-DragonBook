@@ -9,17 +9,12 @@ Protected Class Env
 
 	#tag Method, Flags = &h0
 		Function Get(w As DragonBook.Lexical.Token) As DragonBook.Inter.Id
-		  Dim e As DragonBook.Symbols.Env= Self
+		  Dim env As DragonBook.Symbols.Env= Self
 		  Do
-		    Dim found As Variant= e.Table.Lookup(w, Nil)
+		    Dim found As Variant= env.Table.Lookup(w, Nil)
 		    If Not (found Is Nil) Then Return DragonBook.Inter.Id(found)
-		    
-		    'If e.Table.HasKey(w) Then
-		    'Dim found As DragonBook.Inter.Id= DragonBook.Inter.Id(e.Table.Value(w))
-		    'Return found
-		    'End If
-		    e= e.Prev
-		  Loop Until e Is Nil
+		    env= env.Prev
+		  Loop Until env Is Nil
 		  
 		  Return Nil
 		End Function

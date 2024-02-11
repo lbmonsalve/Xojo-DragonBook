@@ -12,9 +12,6 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h1000
 		Sub Constructor(i As DragonBook.Inter.Id, x As DragonBook.Inter.Expr)
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  Id= i
 		  Expr= x
 		  If Check(i.type, x.type) Is Nil Then Error("type error")

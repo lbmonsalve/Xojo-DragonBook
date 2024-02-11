@@ -3,9 +3,6 @@ Protected Class ElseStmt
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
 		Sub Constructor(x As DragonBook.Inter.Expr, s1 As DragonBook.Inter.Stmt, s2 As DragonBook.Inter.Stmt)
-		  // Calling the overridden superclass constructor.
-		  Super.Constructor
-		  
 		  Expr= x
 		  Stmt1= s1
 		  Stmt2= s2

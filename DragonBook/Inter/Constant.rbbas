@@ -2,6 +2,18 @@
 Protected Class Constant
 Inherits DragonBook.Inter.Expr
 	#tag Method, Flags = &h1000
+		Sub Constructor(d As Double)
+		  // Calling the overridden superclass constructor.
+		  // Note that this may need modifications if there are multiple constructor choices.
+		  // Possible constructor calls:
+		  // Constructor(tok As DragonBook.Lexical.Token, p As DragonBook.Symbols.Type) -- From Expr
+		  // Constructor() -- From Node
+		  Super.Constructor New DragonBook.Lexical.Real(d), DragonBook.Symbols.Type.Float
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1000
 		Sub Constructor(i As Integer)
 		  // Calling the overridden superclass constructor.
 		  // Note that this may need modifications if there are multiple constructor choices.
