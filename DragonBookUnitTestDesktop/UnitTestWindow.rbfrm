@@ -360,11 +360,10 @@ End
 #tag Events PushButton2
 	#tag Event
 		Sub Action()
-		  Dim bsIn As New BinaryStream(TextArea1.Text)
 		  Dim mb As New MemoryBlock(1)
 		  Dim bsOut As New BinaryStream(mb)
 		  
-		  Dim parser As New DragonBook.Parser(New DragonBook.Lexer(bsIn), bsOut)
+		  Dim parser As New DragonBook.Parser(New DragonBook.Lexer(TextArea1.Text), bsOut)
 		  
 		  Try
 		    #pragma BreakOnExceptions Off

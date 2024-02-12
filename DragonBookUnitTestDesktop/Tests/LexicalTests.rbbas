@@ -95,8 +95,7 @@ Inherits TestGroup
 		  tokens.Append New DragonBook.Lexical.Token(Asc("}"))
 		  tokens.Append New DragonBook.Lexical.Token(Asc("}"))
 		  
-		  Dim mb As MemoryBlock= kSource
-		  Dim lexer As New DragonBook.Lexical.Lexer(New BinaryStream(mb))
+		  Dim lexer As New DragonBook.Lexer(kSource)
 		  
 		  For Each token As DragonBook.Lexical.Token In tokens
 		    Dim current As String= lexer.Scan.ToString

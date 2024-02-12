@@ -19,24 +19,14 @@ Protected Module DragonBook
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function isLetterOrDigit(Extends value As String) As Boolean
+		Function IsLetterOrDigit(Extends value As String) As Boolean
 		  Return value.IsLetter Or IsNumeric(value)
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Sub OutPrint(s As String)
-		  If Parser.Out Is Nil Then
-		    System.DebugLog s
-		  Else
-		    Parser.Out.Write s
-		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Sub OutPrintLn(s As String)
-		  OutPrint s+ EndOfLine
+	#tag Method, Flags = &h0
+		Sub ResetPosition(Extends bs As BinaryStream)
+		  bs.Position= 0
 		End Sub
 	#tag EndMethod
 

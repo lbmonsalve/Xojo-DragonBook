@@ -14,12 +14,12 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
 		  after= a // save label a
 		  Dim label As Integer= Newlabel // label for stmt
-		  Stmt.Gen b, label
-		  Emitlabel label
-		  Expr.Jumping b, 0
+		  Stmt.Gen out, b, label
+		  Emitlabel out, label
+		  Expr.Jumping out, b, 0
 		End Sub
 	#tag EndMethod
 

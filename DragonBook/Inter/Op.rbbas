@@ -2,10 +2,10 @@
 Protected Class Op
 Inherits DragonBook.Inter.Expr
 	#tag Method, Flags = &h0
-		Function Reduce() As DragonBook.Inter.Expr
-		  Dim x As DragonBook.Inter.Expr= Gen
+		Function Reduce(out As Writeable) As DragonBook.Inter.Expr
+		  Dim x As DragonBook.Inter.Expr= Gen(out)
 		  Dim t As New DragonBook.Inter.Temp(type)
-		  Emit t.ToString+ " = "+ x.ToString
+		  Emit out, t.ToString+ " = "+ x.ToString
 		  
 		  Return t
 		End Function

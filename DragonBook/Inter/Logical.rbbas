@@ -26,16 +26,16 @@ Inherits DragonBook.Inter.Expr
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen() As DragonBook.Inter.Expr
+		Function Gen(out As Writeable) As DragonBook.Inter.Expr
 		  Dim f As Integer= Newlabel
 		  Dim a As Integer= Newlabel
 		  Dim temp As New DragonBook.Inter.Temp(type)
-		  Jumping 0, f
-		  Emit temp.ToString+ " = true"
-		  Emit "goto L"+ Str(a)
-		  Emitlabel f
-		  Emit temp.ToString+ " = false"
-		  Emitlabel a
+		  Jumping out, 0, f
+		  Emit out, temp.ToString+ " = true"
+		  Emit out, "goto L"+ Str(a)
+		  Emitlabel out, f
+		  Emit out, temp.ToString+ " = false"
+		  Emitlabel out, a
 		  
 		  Return temp
 		End Function

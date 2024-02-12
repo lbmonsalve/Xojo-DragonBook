@@ -1,28 +1,32 @@
 #tag Class
 Protected Class Node
 	#tag Method, Flags = &h0
-		Sub Emit(s As String)
-		  OutPrintLn Chr(9)+ s
+		 Shared Sub Emit(out As Writeable, s As String)
+		  out.Write Chr(9)+ s+ EndOfLine
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Emitlabel(i As Integer)
-		  OutPrint "L"+ Str(i)+ ":"
+		 Shared Sub Emitlabel(out As Writeable, i As Integer)
+		  out.Write "L"+ Str(i)+ ":"
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Sub Error(s As String, line As Integer = 0)
+	#tag Method, Flags = &h1
+		Protected Sub Error(s As String, line As Integer = 0)
 		  Dim exc As New RuntimeException
-		  exc.Message= "near line "+ Str(line)+ ": "+ s
+		  If line= 0 Then
+		    exc.Message= s
+		  Else
+		    exc.Message= "near line "+ Str(line)+ ": "+ s
+		  End If
 		  
 		  Raise exc
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Newlabel() As Integer
+		 Shared Function Newlabel() As Integer
 		  Labels= Labels+ 1
 		  
 		  Return Labels

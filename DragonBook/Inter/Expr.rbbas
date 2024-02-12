@@ -9,32 +9,34 @@ Inherits DragonBook.Inter.Node
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Emitjumps(test As String, t As Integer, f As Integer)
+		Sub Emitjumps(out As Writeable, test As String, t As Integer, f As Integer)
 		  If t<> 0 And f<> 0 Then
-		    Emit "if "+ test+ " goto L"+ Str(t)
-		    Emit "goto L"+ Str(f)
+		    Emit out, "if "+ test+ " goto L"+ Str(t)
+		    Emit out, "goto L"+ Str(f)
 		  ElseIf t<> 0 Then
-		    Emit "if "+ test+ " goto L"+ Str(t)
+		    Emit out, "if "+ test+ " goto L"+ Str(t)
 		  ElseIf f<> 0 Then
-		    Emit "iffalse "+ test+ " goto L"+ Str(f)
+		    Emit out, "iffalse "+ test+ " goto L"+ Str(f)
 		  End If // nothing since both t and f fall through
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen() As DragonBook.Inter.Expr
+		Function Gen(out As Writeable) As DragonBook.Inter.Expr
+		  #pragma Unused out
 		  Return Self
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
-		  Emitjumps ToString, t, f
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Emitjumps out, ToString, t, f
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Reduce() As DragonBook.Inter.Expr
+		Function Reduce(out As Writeable) As DragonBook.Inter.Expr
+		  #pragma Unused out
 		  Return Self
 		End Function
 	#tag EndMethod

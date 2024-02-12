@@ -19,8 +19,8 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
-		  Emit Id.ToString+ " = "+ Expr.Gen.ToString
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
+		  Emit out, Id.ToString+ " = "+ Expr.Gen(out).ToString
 		End Sub
 	#tag EndMethod
 

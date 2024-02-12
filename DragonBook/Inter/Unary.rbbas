@@ -16,8 +16,8 @@ Inherits DragonBook.Inter.Op
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen() As DragonBook.Inter.Expr
-		  Return New DragonBook.Inter.Unary(Op, Expr.Reduce)
+		Function Gen(out As Writeable) As DragonBook.Inter.Expr
+		  Return New DragonBook.Inter.Unary(Op, Expr.Reduce(out))
 		End Function
 	#tag EndMethod
 

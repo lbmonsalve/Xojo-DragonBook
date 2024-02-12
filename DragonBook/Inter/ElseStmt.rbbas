@@ -12,16 +12,16 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
 		  Dim label1 As Integer= Newlabel // label2 for stmt1
 		  Dim label2 As Integer= Newlabel // label2 for stmt2
 		  
-		  Expr.Jumping 0, label2 // fall through to stmt1 on true
-		  Emitlabel label1
-		  Stmt1.Gen label1, a
-		  Emit "goto L"+ Str(a)
-		  Emitlabel label2
-		  Stmt2.Gen label2, a
+		  Expr.Jumping out, 0, label2 // fall through to stmt1 on true
+		  Emitlabel out, label1
+		  Stmt1.Gen out, label1, a
+		  Emit out, "goto L"+ Str(a)
+		  Emitlabel out, label2
+		  Stmt2.Gen out, label2, a
 		End Sub
 	#tag EndMethod
 

@@ -54,12 +54,12 @@ Protected Class Parser
 		Sub Constructor(lex As Lexer, Optional output As Writeable)
 		  If output Is Nil Then
 		    #if TargetConsole
-		      Out= stdout
+		      outStream= stdout
 		    #elseif TargetDesktop
-		      Out= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbook.txt"))
+		      outStream= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbookout.txt"))
 		    #endif
 		  Else
-		    Out= output
+		    outStream= output
 		  End If
 		  
 		  DragonBook.Inter.Node.ResetLabels
@@ -85,10 +85,10 @@ Protected Class Parser
 
 	#tag Method, Flags = &h0
 		Sub Destructor()
-		  If Out Is Nil Then Return
+		  If outStream Is Nil Then Return
 		  
-		  Out.Flush
-		  Out= Nil
+		  outStream.Flush
+		  outStream= Nil
 		End Sub
 	#tag EndMethod
 
@@ -243,9 +243,9 @@ Protected Class Parser
 		  
 		  Dim begin As Integer= syntaxTree.Newlabel
 		  Dim after As Integer= syntaxTree.Newlabel
-		  syntaxTree.Emitlabel begin
-		  syntaxTree.Gen begin, after
-		  syntaxTree.Emitlabel after
+		  syntaxTree.Emitlabel outStream, begin
+		  syntaxTree.Gen outStream, begin, after
+		  syntaxTree.Emitlabel outStream, after
 		  
 		End Sub
 	#tag EndMethod
@@ -377,8 +377,8 @@ Protected Class Parser
 		Private look As DragonBook.Lexical.Token
 	#tag EndProperty
 
-	#tag Property, Flags = &h0
-		Shared Out As Writeable
+	#tag Property, Flags = &h21
+		Private outStream As Writeable
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

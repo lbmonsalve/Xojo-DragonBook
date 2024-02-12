@@ -6,9 +6,6 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim expr As New DragonBook.Inter.Access(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("arr", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int),_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int),_
@@ -19,15 +16,21 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
-		  expe= "\tt1 = arr[ x ]\n"
+		  bsOut.ResetPosition
+		  expe= Chr(0)
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= "\tt1 = arr[ x ]\n"
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
@@ -35,9 +38,6 @@ Inherits TestGroup
 		Sub ExprAndTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.AndStmt(_
 		  DragonBook.Lexical.Word.And_,_
@@ -50,15 +50,21 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  expe= "\tiffalse x goto L1\n\tiffalse y goto L1\n\tt1 = true\n\tgoto L2\nL1:\tt1 = false\nL2:"
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= Chr(0)
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
@@ -66,9 +72,6 @@ Inherits TestGroup
 		Sub ExprArithTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.Arith(_
 		  New DragonBook.Lexical.Token(Asc("+")),_
@@ -81,15 +84,21 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
-		  expe= "\tt1 = x + y\n"
+		  bsOut.ResetPosition
+		  expe= Chr(0)
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= "\tt1 = x + y\n"
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
@@ -97,9 +106,6 @@ Inherits TestGroup
 		Sub ExprIdTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.Id(_
 		  New DragonBook.Lexical.Word("example", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int)
@@ -109,15 +115,14 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
+		  Call expr.Reduce bsOut
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  expe= Chr(0)
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -125,9 +130,6 @@ Inherits TestGroup
 		Sub ExprOrTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.OrStmt(_
 		  DragonBook.Lexical.Word.Or_,_
@@ -140,15 +142,21 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  expe= "\tif x goto L3\n\tiffalse y goto L1\nL3:\tt1 = true\n\tgoto L2\nL1:\tt1 = false\nL2:"
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= Chr(0)
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
@@ -156,9 +164,6 @@ Inherits TestGroup
 		Sub ExprRelTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.Rel(_
 		  DragonBook.Lexical.Word.Eq,_
@@ -171,26 +176,27 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  expe= "\tiffalse x == y goto L1\n\tt1 = true\n\tgoto L2\nL1:\tt1 = false\nL2:"
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= Chr(0)
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub ExprTempTest()
 		  DragonBook.Inter.Node.ResetLabels
-		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  DragonBook.Inter.Temp.ResetCount
 		  
 		  Dim expr As New DragonBook.Inter.Temp(DragonBook.Symbols.Type.Int)
@@ -200,15 +206,14 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
+		  Call expr.Reduce bsOut
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  expe= Chr(0)
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -216,9 +221,6 @@ Inherits TestGroup
 		Sub ExprUnaryTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim expr As New DragonBook.Inter.Unary(_
 		  New DragonBook.Lexical.Token(Asc("-")),_
@@ -230,15 +232,21 @@ Inherits TestGroup
 		  Dim curr As String= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  
-		  Call expr.Gen
-		  Call expr.Reduce
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
 		  
-		  bsOut.Position= 0
-		  expe= "\tt1 = - x\n"
+		  bsOut.ResetPosition
+		  expe= Chr(0)
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		  
-		  DragonBook.Parser.Out= Nil
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= "\tt1 = - x\n"
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
 		End Sub
 	#tag EndMethod
 
@@ -247,9 +255,6 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim stmt As New DragonBook.Inter.DoStmt(_
 		  New DragonBook.Inter.Set(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int),_
@@ -257,14 +262,13 @@ Inherits TestGroup
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("b", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool))
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tx = 0\nL3:\tif b goto L1\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -272,9 +276,6 @@ Inherits TestGroup
 		Sub StmtElseTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim stmt As New DragonBook.Inter.ElseStmt(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("b", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool),_
@@ -286,14 +287,13 @@ Inherits TestGroup
 		  New DragonBook.Inter.Constant(42)))
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tiffalse b goto L4\nL3:\tx = 0\n\tgoto L2\nL4:\tx = 42\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -302,9 +302,6 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim stmt As New DragonBook.Inter.IfStmt(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("b", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool),_
 		  New DragonBook.Inter.Set(_
@@ -312,14 +309,13 @@ Inherits TestGroup
 		  New DragonBook.Inter.Constant(0)))
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tiffalse b goto L2\nL3:\tx = 0\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -327,9 +323,6 @@ Inherits TestGroup
 		Sub StmtSeqTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
-		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
 		  
 		  Dim set As New DragonBook.Inter.Set(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int),_
@@ -345,14 +338,13 @@ Inherits TestGroup
 		  Dim stmt As New DragonBook.Inter.Seq(set, setElem)
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tx = 42\nL3:\tarr [ x ] = 42.0\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -361,9 +353,6 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim stmt As New DragonBook.Inter.SetElem(_
 		  New DragonBook.Inter.Access(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("arr", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Float),_
@@ -371,14 +360,13 @@ Inherits TestGroup
 		  DragonBook.Symbols.Type.Float),_
 		  New DragonBook.Inter.Constant(42.0))
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tarr [ x ] = 42.0\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -387,22 +375,18 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim stmt As New DragonBook.Inter.Set(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Int),_
 		  New DragonBook.Inter.Constant(42))
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tx = 42\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 
@@ -411,9 +395,6 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
-		  DragonBook.Parser.Out= bsOut
-		  
 		  Dim stmt As New DragonBook.Inter.WhileStmt(_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("b", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool),_
 		  New DragonBook.Inter.Set(_
@@ -421,14 +402,13 @@ Inherits TestGroup
 		  New DragonBook.Inter.Constant(0)))
 		  Assert.IsNotNil stmt, "IsNotNil stmt"
 		  
-		  stmt.Gen stmt.Newlabel, stmt.Newlabel
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
 		  
-		  bsOut.Position= 0
+		  bsOut.ResetPosition
 		  Dim expe As String= "\tiffalse b goto L2\nL3:\tx = 0\n\tgoto L1\n"
 		  Dim curr As String= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
-		  
-		  DragonBook.Parser.Out= Nil
 		End Sub
 	#tag EndMethod
 

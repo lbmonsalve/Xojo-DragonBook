@@ -23,15 +23,14 @@ Inherits TestGroup
 		    DragonBook.Inter.Node.ResetLabels
 		    DragonBook.Inter.Temp.ResetCount
 		    
-		    Dim mb As MemoryBlock= testCase.Left.StringValue
 		    Dim bsOut As New BinaryStream(New MemoryBlock(1))
 		    
-		    Dim lexer As New DragonBook.Lexer(New BinaryStream(mb))
+		    Dim lexer As New DragonBook.Lexer(testCase.Left.StringValue)
 		    Dim parser As New DragonBook.Parser(lexer, bsOut)
 		    
 		    parser.Program
 		    
-		    bsOut.Position= 0
+		    bsOut.ResetPosition
 		    Dim result As String= ReplaceLineEndings(bsOut.Read(bsOut.Length), EndOfLine.UNIX)
 		    Dim espect As String= ReplaceLineEndings(testCase.Right.StringValue.FrmtEsc, EndOfLine.UNIX)
 		    Assert.AreEqual espect, result, "AreEqual espect, result"

@@ -9,8 +9,8 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
-		  Emit "goto L"+ Str(Stmt.after)
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
+		  Emit out, "goto L"+ Str(Stmt.after)
 		End Sub
 	#tag EndMethod
 

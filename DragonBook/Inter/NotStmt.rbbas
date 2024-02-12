@@ -15,8 +15,8 @@ Inherits DragonBook.Inter.Logical
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
-		  Expr2.Jumping f, t
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Expr2.Jumping out, f, t
 		End Sub
 	#tag EndMethod
 

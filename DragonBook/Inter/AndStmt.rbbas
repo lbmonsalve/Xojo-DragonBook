@@ -2,12 +2,12 @@
 Protected Class AndStmt
 Inherits DragonBook.Inter.Logical
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
 		  Dim label As Integer
 		  If f<> 0 Then label= f Else label= Newlabel
-		  Expr1.Jumping 0, label
-		  Expr2.Jumping t, f
-		  If f= 0 Then Emitlabel(label)
+		  Expr1.Jumping out, 0, label
+		  Expr2.Jumping out, t, f
+		  If f= 0 Then Emitlabel(out, label)
 		End Sub
 	#tag EndMethod
 

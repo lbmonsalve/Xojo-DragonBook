@@ -17,8 +17,8 @@ Inherits DragonBook.Inter.Op
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen() As DragonBook.Inter.Expr
-		  Return New Arith(Op, Expr1.Reduce, Expr2.Reduce)
+		Function Gen(out As Writeable) As DragonBook.Inter.Expr
+		  Return New Arith(Op, Expr1.Reduce(out), Expr2.Reduce(out))
 		End Function
 	#tag EndMethod
 

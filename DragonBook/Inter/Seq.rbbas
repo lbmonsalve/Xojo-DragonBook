@@ -9,16 +9,16 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
 		  If Stmt1= DragonBook.Inter.Stmt.Null Then
-		    Stmt2.Gen(b, a)
+		    Stmt2.Gen out, b, a
 		  ElseIf Stmt2= DragonBook.Inter.Stmt.Null Then
-		    Stmt1.Gen(b, a)
+		    Stmt1.Gen out, b, a
 		  Else
 		    Dim label As Integer= Newlabel
-		    Stmt1.Gen(b, label)
-		    Emitlabel label
-		    Stmt2.Gen(label, a)
+		    Stmt1.Gen out, b, label
+		    Emitlabel out, label
+		    Stmt2.Gen out, label, a
 		  End If
 		End Sub
 	#tag EndMethod

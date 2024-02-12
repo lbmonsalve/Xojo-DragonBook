@@ -23,6 +23,13 @@ Protected Class Lexer
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Constructor(source As String)
+		  Dim mb As MemoryBlock= source
+		  Constructor New BinaryStream(mb)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function GetLine() As Integer
 		  Return line
 		End Function
@@ -110,7 +117,7 @@ Protected Class Lexer
 		    Do
 		      b.Append peek
 		      ReadCh
-		    Loop Until Not peek.isLetterOrDigit
+		    Loop Until Not peek.IsLetterOrDigit
 		    
 		    Dim s As String= Join(b, "")
 		    If words.HasKey(s) Then

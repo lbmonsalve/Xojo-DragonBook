@@ -15,14 +15,14 @@ Inherits DragonBook.Inter.Op
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen() As DragonBook.Inter.Expr
-		  Return New Access(IdArray, Index.Reduce, type)
+		Function Gen(out As Writeable) As DragonBook.Inter.Expr
+		  Return New Access(IdArray, Index.Reduce(out), type)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
-		  Emitjumps Reduce.ToString, t, f
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Emitjumps out, Reduce(out).ToString, t, f
 		End Sub
 	#tag EndMethod
 

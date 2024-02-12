@@ -25,11 +25,11 @@ Inherits DragonBook.Inter.Expr
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
 		  If Self Is True_ And t<> 0 Then
-		    Emit "goto L"+ Str(t)
+		    Emit out, "goto L"+ Str(t)
 		  ElseIf Self Is False_ And f<> 0 Then
-		    Emit "goto L"+ Str(f)
+		    Emit out, "goto L"+ Str(f)
 		  End If
 		End Sub
 	#tag EndMethod

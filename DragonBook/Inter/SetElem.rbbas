@@ -22,8 +22,8 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Gen(b As Integer, a As Integer)
-		  Emit IdArray.ToString+ " [ "+ Index.Reduce.ToString+ " ] = "+ Expr.Reduce.ToString
+		Sub Gen(out As Writeable, b As Integer, a As Integer)
+		  Emit out, IdArray.ToString+ " [ "+ Index.Reduce(out).ToString+ " ] = "+ Expr.Reduce(out).ToString
 		End Sub
 	#tag EndMethod
 

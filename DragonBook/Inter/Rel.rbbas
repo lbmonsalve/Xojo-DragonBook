@@ -11,10 +11,10 @@ Inherits DragonBook.Inter.Logical
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Jumping(t As Integer, f As Integer)
-		  Dim a As DragonBook.Inter.Expr= Expr1.Reduce
-		  Dim b As DragonBook.Inter.Expr= Expr2.Reduce
-		  Emitjumps a.ToString+ " "+ Op.ToString+ " "+ b.ToString, t, f
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Dim a As DragonBook.Inter.Expr= Expr1.Reduce(out)
+		  Dim b As DragonBook.Inter.Expr= Expr2.Reduce(out)
+		  Emitjumps out, a.ToString+ " "+ Op.ToString+ " "+ b.ToString, t, f
 		End Sub
 	#tag EndMethod
 
