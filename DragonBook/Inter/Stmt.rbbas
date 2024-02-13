@@ -4,6 +4,9 @@ Inherits DragonBook.Inter.Node
 	#tag Method, Flags = &h0
 		Sub Gen(out As Writeable, b As Integer, a As Integer)
 		  // called with labels begin and after
+		  #pragma Unused out
+		  #pragma Unused b
+		  #pragma Unused a
 		End Sub
 	#tag EndMethod
 

@@ -1,29 +1,6 @@
 #tag Class
 Protected Class Parser
 	#tag Method, Flags = &h21
-		Private Function Assing() As DragonBook.Inter.Stmt
-		  Dim s As DragonBook.Inter.Stmt
-		  Dim t As DragonBook.Lexical.Token= look
-		  
-		  Match Tag.ID.ToInteger
-		  Dim id As DragonBook.Inter.Id= top.Get(t)
-		  If id Is Nil Then Error(t.ToString+ " undeclared")
-		  
-		  If look.GetTag= Asc("=") Then // S -> id = E ;
-		    Move
-		    s= New DragonBook.Inter.Set(id, Bool)
-		  Else // S -> L = E ;
-		    Dim x As DragonBook.Inter.Access= Offset(id)
-		    Match Asc("=")
-		    s= New DragonBook.Inter.SetElem(x, Bool)
-		  End If
-		  
-		  Match Asc(";")
-		  Return s
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
 		Private Function Block() As DragonBook.Inter.Stmt
 		  Match Asc("{") // block -> { decls stmts }
 		  Dim savedEnv As DragonBook.Symbols.Env= top
@@ -197,6 +174,29 @@ Protected Class Parser
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Function Loc() As DragonBook.Inter.Stmt
+		  Dim s As DragonBook.Inter.Stmt
+		  Dim t As DragonBook.Lexical.Token= look
+		  
+		  Match Tag.ID.ToInteger
+		  Dim id As DragonBook.Inter.Id= top.Get(t)
+		  If id Is Nil Then Error(t.ToString+ " undeclared")
+		  
+		  If look.GetTag= Asc("=") Then // S -> id = E ;
+		    Move
+		    s= New DragonBook.Inter.Set(id, Bool)
+		  Else // S -> L = E ;
+		    Dim x As DragonBook.Inter.Access= Offset(id)
+		    Match Asc("=")
+		    s= New DragonBook.Inter.SetElem(x, Bool)
+		  End If
+		  
+		  Match Asc(";")
+		  Return s
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub Match(t As Integer)
 		  If look.GetTag= t Then
 		    Move
@@ -320,7 +320,7 @@ Protected Class Parser
 		  Case Asc("{")
 		    Return Block
 		  Case Else
-		    Return Assing
+		    Return Loc
 		  End Select
 		End Function
 	#tag EndMethod

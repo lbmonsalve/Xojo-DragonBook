@@ -11,6 +11,7 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h0
 		Sub Gen(out As Writeable, b As Integer, a As Integer)
+		  #pragma Unused b
 		  Dim label As Integer= Newlabel // label for the code for stmt
 		  Expr.Jumping out, 0, a     // fall through on true, goto a on false
 		  Emitlabel out, label

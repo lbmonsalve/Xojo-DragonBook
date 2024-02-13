@@ -58,16 +58,15 @@ Protected Class Lexer
 
 	#tag Method, Flags = &h0
 		Function Scan() As Token
-		  While True
+		  Do
 		    If peek= " " Or peek.Asc= TAB Then
-		      'ReadCh
-		    ElseIf peek.Asc= CR Then // peek.Asc= LF
+		    ElseIf peek.Asc= CR Then // peek.Asc= LF ?? dont why
 		      line= line+ 1
 		    Else
 		      Exit
 		    End If
 		    ReadCh
-		  Wend
+		  Loop
 		  
 		  Select Case peek
 		  Case "&"

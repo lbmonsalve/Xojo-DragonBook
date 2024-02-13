@@ -13,6 +13,7 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h0
 		Sub Gen(out As Writeable, b As Integer, a As Integer)
+		  #pragma Unused b
 		  Dim label1 As Integer= Newlabel // label2 for stmt1
 		  Dim label2 As Integer= Newlabel // label2 for stmt2
 		  
