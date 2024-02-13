@@ -44,10 +44,9 @@ class Tag. Tags distinguish tokens.
 class Token with subclasses Num, Real, Char and Word  
 class Lexer, with procedure scan  
 
-modle Dragonbook.Symbols  
+module Dragonbook.Symbols  
 
 class Type.  Put types here.  
-class Id.  Could have put Id's with expressions; in fact Id extends Expr  
 clas Env.  Linked symbol tables.  
 
 module Dragonbook.Inter for intermediate code  
