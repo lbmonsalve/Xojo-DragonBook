@@ -2,7 +2,7 @@
 Protected Class ElseStmt
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
-		Sub Constructor(x As DragonBook.Inter.Expr, s1 As DragonBook.Inter.Stmt, s2 As DragonBook.Inter.Stmt)
+		Sub Constructor(x As Expr, s1 As Stmt, s2 As Stmt)
 		  Expr= x
 		  Stmt1= s1
 		  Stmt2= s2
@@ -27,15 +27,15 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Expr As DragonBook.Inter.Expr
+		Expr As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Stmt1 As DragonBook.Inter.Stmt
+		Stmt1 As Stmt
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Stmt2 As DragonBook.Inter.Stmt
+		Stmt2 As Stmt
 	#tag EndProperty
 
 

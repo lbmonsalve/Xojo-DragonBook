@@ -12,7 +12,7 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(x As DragonBook.Inter.Access, y As DragonBook.Inter.Expr)
+		Sub Constructor(x As Access, y As Expr)
 		  IdArray= x.IdArray
 		  Index= x.Index
 		  Expr= y
@@ -29,15 +29,15 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Expr As DragonBook.Inter.Expr
+		Expr As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		IdArray As DragonBook.Inter.Id
+		IdArray As Id
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Index As DragonBook.Inter.Expr
+		Index As Expr
 	#tag EndProperty
 
 

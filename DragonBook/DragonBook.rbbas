@@ -57,7 +57,8 @@ Protected Module DragonBook
 		  REAL = 272
 		  TEMP = 273
 		  TRUE_ = 274
-		WHILE_ = 275
+		  WHILE_ = 275
+		CHAR = 276
 	#tag EndEnum
 
 

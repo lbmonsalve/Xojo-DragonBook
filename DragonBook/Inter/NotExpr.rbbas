@@ -1,36 +1,30 @@
 #tag Class
-Protected Class Unary
-Inherits DragonBook.Inter.Op
+Protected Class NotExpr
+Inherits DragonBook.Inter.Logical
 	#tag Method, Flags = &h1000
-		Sub Constructor(tok As DragonBook.Lexical.Token, x As DragonBook.Inter.Expr)
+		Sub Constructor(tok As DragonBook.Lexical.Token, x2 As Expr)
 		  // Calling the overridden superclass constructor.
 		  // Note that this may need modifications if there are multiple constructor choices.
 		  // Possible constructor calls:
+		  // Constructor(tok As DragonBook.Lexical.Token, x1 As DragonBook.Inter.Expr, x2 As DragonBook.Inter.Expr) -- From Logical
 		  // Constructor(tok As DragonBook.Lexical.Token, p As DragonBook.Symbols.Type) -- From Expr
 		  // Constructor() -- From Node
-		  Super.Constructor tok, Nil
-		  Expr= x
-		  type= DragonBook.Symbols.Type.Max(DragonBook.Symbols.Type.Int, x.type)
-		  If type Is Nil Then Error("type error")
+		  Super.Constructor tok, x2, x2
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Gen(out As Writeable) As DragonBook.Inter.Expr
-		  Return New Unary(Op, Expr.Reduce(out))
-		End Function
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Expr2.Jumping out, f, t
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  Return Op.ToString+ " "+ Expr.ToString
+		  Return Op.ToString+ " "+ expr2.ToString
 		End Function
 	#tag EndMethod
-
-
-	#tag Property, Flags = &h0
-		Expr As Expr
-	#tag EndProperty
 
 
 	#tag ViewBehavior

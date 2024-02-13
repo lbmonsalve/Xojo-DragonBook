@@ -9,7 +9,7 @@ Protected Class Env
 
 	#tag Method, Flags = &h0
 		Function Get(w As DragonBook.Lexical.Token) As DragonBook.Inter.Id
-		  Dim env As DragonBook.Symbols.Env= Self
+		  Dim env As Env= Self
 		  Do
 		    Dim found As Variant= env.Table.Lookup(w, Nil)
 		    If Not (found Is Nil) Then Return DragonBook.Inter.Id(found)

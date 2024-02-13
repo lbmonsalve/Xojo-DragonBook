@@ -8,7 +8,7 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(s As DragonBook.Inter.Stmt, x As DragonBook.Inter.Expr)
+		Sub Constructor(s As Stmt, x As Expr)
 		  Init s, x
 		End Sub
 	#tag EndMethod
@@ -24,7 +24,7 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Init(s As DragonBook.Inter.Stmt, x As DragonBook.Inter.Expr)
+		Sub Init(s As Stmt, x As Expr)
 		  Stmt= s
 		  Expr= x
 		  If Expr.type<> DragonBook.Symbols.Type.Bool Then Expr.Error("boolean required in if")
@@ -33,11 +33,11 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Expr As DragonBook.Inter.Expr
+		Expr As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Stmt As DragonBook.Inter.Stmt
+		Stmt As Stmt
 	#tag EndProperty
 
 

@@ -34,11 +34,11 @@ Inherits DragonBook.Inter.Op
 
 
 	#tag Property, Flags = &h0
-		IdArray As DragonBook.Inter.Id
+		IdArray As Id
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Index As DragonBook.Inter.Expr
+		Index As Expr
 	#tag EndProperty
 
 

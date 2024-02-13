@@ -3,8 +3,8 @@ Protected Class BreakStmt
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
 		Sub Constructor()
-		  If DragonBook.Inter.Stmt.Enclosing= DragonBook.Inter.Stmt.Null Then Error "unenclosed break"
-		  Stmt= DragonBook.Inter.Stmt.Enclosing
+		  If Stmt.Enclosing= Stmt.Null Then Error "unenclosed break"
+		  Stmt= Stmt.Enclosing
 		End Sub
 	#tag EndMethod
 
@@ -16,7 +16,7 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Stmt As DragonBook.Inter.Stmt
+		Stmt As Stmt
 	#tag EndProperty
 
 

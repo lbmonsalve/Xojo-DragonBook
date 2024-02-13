@@ -20,6 +20,9 @@ Inherits TestGroup
 		  tokens.Append New DragonBook.Lexical.Token(Asc("]"))
 		  tokens.Append New DragonBook.Lexical.Word("a", DragonBook.Tag.ID.ToInteger)
 		  tokens.Append New DragonBook.Lexical.Token(Asc(";"))
+		  tokens.Append New DragonBook.Lexical.Word("char", DragonBook.Tag.WHILE_.ToInteger)
+		  tokens.Append New DragonBook.Lexical.Word("s", DragonBook.Tag.WHILE_.ToInteger)
+		  tokens.Append New DragonBook.Lexical.Token(Asc(";"))
 		  tokens.Append New DragonBook.Lexical.Word("while", DragonBook.Tag.WHILE_.ToInteger)
 		  tokens.Append New DragonBook.Lexical.Token(Asc("("))
 		  tokens.Append DragonBook.Lexical.Word.True_
@@ -92,6 +95,10 @@ Inherits TestGroup
 		  tokens.Append New DragonBook.Lexical.Token(Asc("="))
 		  tokens.Append New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger)
 		  tokens.Append New DragonBook.Lexical.Token(Asc(";"))
+		  tokens.Append New DragonBook.Lexical.Word("s", DragonBook.Tag.ID.ToInteger)
+		  tokens.Append New DragonBook.Lexical.Token(Asc("="))
+		  tokens.Append New DragonBook.Lexical.Char("hello", DragonBook.Tag.CHAR.ToInteger)
+		  tokens.Append New DragonBook.Lexical.Token(Asc(";"))
 		  tokens.Append New DragonBook.Lexical.Token(Asc("}"))
 		  tokens.Append New DragonBook.Lexical.Token(Asc("}"))
 		  
@@ -105,7 +112,7 @@ Inherits TestGroup
 	#tag EndMethod
 
 
-	#tag Constant, Name = kSource, Type = String, Dynamic = False, Default = \"        {\r          int i; int j; float v; float[100] a;\r          while (true) {\r            do i \x3D i + 1; while(a[i] < v);\r            do j \x3D j - 1; while(a[j] > v);\r            if (i >\x3D j) break;\r            int x \x3D a[i];\r            a[i] \x3D a[j];\r            a[j] \x3D x;\r          }\r        }", Scope = Private
+	#tag Constant, Name = kSource, Type = String, Dynamic = False, Default = \"        {\r          int i; int j; float v; float[100] a;char s;\r          while (true) {\r            do i \x3D i + 1; while(a[i] < v);\r            do j \x3D j - 1; while(a[j] > v);\r            if (i >\x3D j) break;\r            int x \x3D a[i];\r            a[i] \x3D a[j];\r            a[j] \x3D x; s\x3D \"hello\";\r          }\r        }", Scope = Private
 	#tag EndConstant
 
 

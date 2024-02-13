@@ -11,7 +11,7 @@ Inherits DragonBook.Inter.Expr
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(tok As DragonBook.Lexical.Token, x1 As DragonBook.Inter.Expr, x2 As DragonBook.Inter.Expr)
+		Sub Constructor(tok As DragonBook.Lexical.Token, x1 As Expr, x2 As Expr)
 		  // Calling the overridden superclass constructor.
 		  // Note that this may need modifications if there are multiple constructor choices.
 		  // Possible constructor calls:
@@ -29,7 +29,7 @@ Inherits DragonBook.Inter.Expr
 		Function Gen(out As Writeable) As DragonBook.Inter.Expr
 		  Dim f As Integer= Newlabel
 		  Dim a As Integer= Newlabel
-		  Dim temp As New DragonBook.Inter.Temp(type)
+		  Dim temp As New Temp(type)
 		  Jumping out, 0, f
 		  Emit out, temp.ToString+ " = true"
 		  Emit out, "goto L"+ Str(a)
@@ -49,11 +49,11 @@ Inherits DragonBook.Inter.Expr
 
 
 	#tag Property, Flags = &h0
-		Expr1 As DragonBook.Inter.Expr
+		Expr1 As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Expr2 As DragonBook.Inter.Expr
+		Expr2 As Expr
 	#tag EndProperty
 
 

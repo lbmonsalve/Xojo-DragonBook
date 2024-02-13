@@ -30,11 +30,11 @@ Inherits DragonBook.Inter.Op
 
 
 	#tag Property, Flags = &h0
-		Expr1 As DragonBook.Inter.Expr
+		Expr1 As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Expr2 As DragonBook.Inter.Expr
+		Expr2 As Expr
 	#tag EndProperty
 
 

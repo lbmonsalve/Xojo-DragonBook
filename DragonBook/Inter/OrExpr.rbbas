@@ -1,40 +1,18 @@
 #tag Class
-Protected Class IfStmt
-Inherits DragonBook.Inter.Stmt
-	#tag Method, Flags = &h1000
-		Sub Constructor(x As Expr, s As Stmt)
-		  Expr= x
-		  Stmt= s
-		  If Expr.type<> DragonBook.Symbols.Type.Bool Then Expr.Error("boolean required in if")
-		End Sub
-	#tag EndMethod
-
+Protected Class OrExpr
+Inherits DragonBook.Inter.Logical
 	#tag Method, Flags = &h0
-		Sub Gen(out As Writeable, b As Integer, a As Integer)
-		  Dim label As Integer= Newlabel // label for the code for stmt
-		  Expr.Jumping out, 0, a     // fall through on true, goto a on false
-		  Emitlabel out, label
-		  Stmt.Gen out, label, a
+		Sub Jumping(out As Writeable, t As Integer, f As Integer)
+		  Dim label As Integer
+		  If t<> 0 Then label= t Else label= Newlabel
+		  Expr1.Jumping out, label, 0
+		  Expr2.Jumping out, t, f
+		  If t= 0 Then Emitlabel(out, label)
 		End Sub
 	#tag EndMethod
-
-
-	#tag Property, Flags = &h0
-		Expr As Expr
-	#tag EndProperty
-
-	#tag Property, Flags = &h0
-		Stmt As Stmt
-	#tag EndProperty
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="after"
-			Group="Behavior"
-			Type="Integer"
-			InheritedFrom="DragonBook.Inter.Stmt"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true

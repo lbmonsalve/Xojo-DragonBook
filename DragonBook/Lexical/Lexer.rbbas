@@ -89,6 +89,15 @@ Protected Class Lexer
 		  Case ">"
 		    If ReadCh("=") Then Return Word.Ge
 		    Return New Token(Asc(">"))
+		  Case """"
+		    ReadCh
+		    Dim b() As String
+		    Do
+		      b.Append peek
+		      ReadCh
+		    Loop Until peek= """"
+		    peek= " "
+		    Return New Char(Join(b, ""), Tag.CHAR.ToInteger)
 		  End Select
 		  
 		  If IsNumeric(peek) Then

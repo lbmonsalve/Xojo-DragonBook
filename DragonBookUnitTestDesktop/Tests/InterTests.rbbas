@@ -39,7 +39,7 @@ Inherits TestGroup
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim expr As New DragonBook.Inter.AndStmt(_
+		  Dim expr As New DragonBook.Inter.AndExpr(_
 		  DragonBook.Lexical.Word.And_,_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool),_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("y", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool)_
@@ -103,6 +103,51 @@ Inherits TestGroup
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub ExprConstantTest()
+		  DragonBook.Inter.Node.ResetLabels
+		  DragonBook.Inter.Temp.ResetCount
+		  
+		  Dim expr As New DragonBook.Inter.Constant(99)
+		  Assert.IsNotNil expr, "IsNotNil expr"
+		  
+		  Dim expe As String= "99"
+		  Dim curr As String= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Int, "IsTrue expr.type= DragonBook.Symbols.Type.Int"
+		  
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= Chr(0)
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  
+		  expr= New DragonBook.Inter.Constant(99.99)
+		  
+		  expe= "99.99"
+		  curr= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Float, "IsTrue expr.type= DragonBook.Symbols.Type.Float"
+		  
+		  expr= DragonBook.Inter.Constant.True_
+		  
+		  expe= "true"
+		  curr= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Bool, "IsTrue expr.type= DragonBook.Symbols.Type.Bool"
+		  
+		  expr= DragonBook.Inter.Constant.False_
+		  
+		  expe= "false"
+		  curr= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Bool, "IsTrue expr.type= DragonBook.Symbols.Type.Bool"
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub ExprIdTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
@@ -127,11 +172,45 @@ Inherits TestGroup
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub ExprNotTest()
+		  DragonBook.Inter.Node.ResetLabels
+		  DragonBook.Inter.Temp.ResetCount
+		  
+		  Dim expr As New DragonBook.Inter.NotExpr(_
+		  New DragonBook.Lexical.Token(Asc("!")),_
+		  New DragonBook.Inter.Id(_
+		  New DragonBook.Lexical.Word("a", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool)_
+		  )
+		  Assert.IsNotNil expr, "IsNotNil expr"
+		  
+		  Dim expe As String= "! a"
+		  Dim curr As String= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  Call expr.Gen bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= "\tif a goto L1\n\tt1 = true\n\tgoto L2\nL1:\tt1 = false\nL2:"
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
+		  
+		  bsOut= New BinaryStream(New MemoryBlock(1))
+		  Call expr.Reduce bsOut
+		  
+		  bsOut.ResetPosition
+		  expe= Chr(0)
+		  curr= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub ExprOrTest()
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
 		  
-		  Dim expr As New DragonBook.Inter.OrStmt(_
+		  Dim expr As New DragonBook.Inter.OrExpr(_
 		  DragonBook.Lexical.Word.Or_,_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("x", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool),_
 		  New DragonBook.Inter.Id(New DragonBook.Lexical.Word("y", DragonBook.Tag.ID.ToInteger), DragonBook.Symbols.Type.Bool)_
@@ -247,6 +326,28 @@ Inherits TestGroup
 		  expe= "\tt1 = - x\n"
 		  curr= bsOut.Read(bsOut.Length)
 		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub StmtBreakTest()
+		  DragonBook.Inter.Node.ResetLabels
+		  DragonBook.Inter.Temp.ResetCount
+		  
+		  DragonBook.Inter.Stmt.Enclosing= New DragonBook.Inter.WhileStmt
+		  
+		  Dim stmt As New DragonBook.Inter.BreakStmt
+		  Assert.IsNotNil stmt, "IsNotNil stmt"
+		  
+		  Dim bsOut As New BinaryStream(New MemoryBlock(1))
+		  stmt.Gen bsOut, stmt.Newlabel, stmt.Newlabel
+		  
+		  bsOut.ResetPosition
+		  Dim expe As String= "\tgoto L0\n"
+		  Dim curr As String= bsOut.Read(bsOut.Length)
+		  Assert.AreSame expe.FrmtEsc, curr, "AreSame expe, curr"
+		  
+		  DragonBook.Inter.Stmt.Enclosing= DragonBook.Inter.Stmt.Null
 		End Sub
 	#tag EndMethod
 

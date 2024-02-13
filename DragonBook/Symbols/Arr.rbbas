@@ -2,7 +2,7 @@
 Protected Class Arr
 Inherits DragonBook.Symbols.Type
 	#tag Method, Flags = &h1000
-		Sub Constructor(size As Integer, p As DragonBook.Symbols.Type)
+		Sub Constructor(size As Integer, p As Type)
 		  // Calling the overridden superclass constructor.
 		  // Note that this may need modifications if there are multiple constructor choices.
 		  // Possible constructor calls:
@@ -24,7 +24,7 @@ Inherits DragonBook.Symbols.Type
 
 
 	#tag Property, Flags = &h0
-		OfType As DragonBook.Symbols.Type
+		OfType As Type
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

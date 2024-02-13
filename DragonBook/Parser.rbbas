@@ -43,7 +43,7 @@ Protected Class Parser
 		  While look.GetTag= Tag.OR_.ToInteger
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
-		    x= New DragonBook.Inter.OrStmt(tok, x, Join)
+		    x= New DragonBook.Inter.OrExpr(tok, x, Join)
 		  Wend
 		  
 		  Return x
@@ -54,13 +54,12 @@ Protected Class Parser
 		Sub Constructor(lex As Lexer, Optional output As Writeable)
 		  If output Is Nil Then
 		    #if TargetConsole
-		      outStream= stdout
+		      output= stdout
 		    #elseif TargetDesktop
-		      outStream= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbookout.txt"))
+		      output= TextOutputStream.Create(SpecialFolder.Documents.Child("dragonbookout.txt"))
 		    #endif
-		  Else
-		    outStream= output
 		  End If
+		  outStream= output
 		  
 		  DragonBook.Inter.Node.ResetLabels
 		  DragonBook.Inter.Temp.ResetCount
@@ -157,6 +156,10 @@ Protected Class Parser
 		    x= New DragonBook.Inter.Constant(look, DragonBook.Symbols.Type.Float)
 		    Move
 		    Return x
+		  Case Tag.CHAR.ToInteger
+		    x= New DragonBook.Inter.Constant(look, DragonBook.Symbols.Type.Char)
+		    Move
+		    Return x
 		  Case Tag.TRUE_.ToInteger
 		    x= DragonBook.Inter.Constant.True_
 		    Move
@@ -186,7 +189,7 @@ Protected Class Parser
 		  While look.GetTag= Tag.AND_.ToInteger
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
-		    x= New DragonBook.Inter.AndStmt(tok, x, Equality)
+		    x= New DragonBook.Inter.AndExpr(tok, x, Equality)
 		  Wend
 		  
 		  Return x
@@ -360,7 +363,7 @@ Protected Class Parser
 		  ElseIf look.GetTag= Asc("!") Then
 		    Dim tok As DragonBook.Lexical.Token= look
 		    Move
-		    Return New DragonBook.Inter.NotStmt(tok, Unary)
+		    Return New DragonBook.Inter.NotExpr(tok, Unary)
 		  Else
 		    Return Factor
 		  End If

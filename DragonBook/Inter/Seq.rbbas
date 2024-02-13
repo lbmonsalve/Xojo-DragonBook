@@ -2,7 +2,7 @@
 Protected Class Seq
 Inherits DragonBook.Inter.Stmt
 	#tag Method, Flags = &h1000
-		Sub Constructor(s1 As DragonBook.Inter.Stmt, s2 As DragonBook.Inter.Stmt)
+		Sub Constructor(s1 As Stmt, s2 As Stmt)
 		  Stmt1= s1
 		  Stmt2= s2
 		End Sub
@@ -10,9 +10,9 @@ Inherits DragonBook.Inter.Stmt
 
 	#tag Method, Flags = &h0
 		Sub Gen(out As Writeable, b As Integer, a As Integer)
-		  If Stmt1= DragonBook.Inter.Stmt.Null Then
+		  If Stmt1= Stmt.Null Then
 		    Stmt2.Gen out, b, a
-		  ElseIf Stmt2= DragonBook.Inter.Stmt.Null Then
+		  ElseIf Stmt2= Stmt.Null Then
 		    Stmt1.Gen out, b, a
 		  Else
 		    Dim label As Integer= Newlabel
@@ -25,11 +25,11 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Stmt1 As DragonBook.Inter.Stmt
+		Stmt1 As Stmt
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Stmt2 As DragonBook.Inter.Stmt
+		Stmt2 As Stmt
 	#tag EndProperty
 
 

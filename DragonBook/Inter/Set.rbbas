@@ -11,7 +11,7 @@ Inherits DragonBook.Inter.Stmt
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor(i As DragonBook.Inter.Id, x As DragonBook.Inter.Expr)
+		Sub Constructor(i As Id, x As Expr)
 		  Id= i
 		  Expr= x
 		  If Check(i.type, x.type) Is Nil Then Error("type error")
@@ -26,11 +26,11 @@ Inherits DragonBook.Inter.Stmt
 
 
 	#tag Property, Flags = &h0
-		Expr As DragonBook.Inter.Expr
+		Expr As Expr
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		Id As DragonBook.Inter.Id
+		Id As Id
 	#tag EndProperty
 
 
