@@ -144,6 +144,14 @@ Inherits TestGroup
 		  curr= expr.ToString
 		  Assert.AreSame expe, curr, "AreSame expe, curr"
 		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Bool, "IsTrue expr.type= DragonBook.Symbols.Type.Bool"
+		  
+		  expr= New DragonBook.Inter.Constant(_
+		  New DragonBook.Lexical.Char("hell-o", DragonBook.Tag.CHAR.ToInteger), DragonBook.Symbols.Type.Char)
+		  
+		  expe= """hell-o"""
+		  curr= expr.ToString
+		  Assert.AreSame expe, curr, "AreSame expe, curr"
+		  Assert.IsTrue expr.type= DragonBook.Symbols.Type.Char, "IsTrue expr.type= DragonBook.Symbols.Type.Char"
 		End Sub
 	#tag EndMethod
 

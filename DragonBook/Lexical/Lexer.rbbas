@@ -9,7 +9,6 @@ Protected Class Lexer
 		  
 		  Reserve(New Word("if", Tag.IF_.ToInteger))
 		  Reserve(New Word("else", Tag.ELSE_.ToInteger))
-		  
 		  Reserve(New Word("while", Tag.WHILE_.ToInteger))
 		  Reserve(New Word("do", Tag.DO_.ToInteger))
 		  Reserve(New Word("break", Tag.BREAK_.ToInteger))
