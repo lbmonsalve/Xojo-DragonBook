@@ -1,13 +1,31 @@
 #tag Module
 Protected Module DragonBook
 	#tag Method, Flags = &h0
-		Function FrmtEsc(Extends s As String) As String
-		  Return s.ReplaceAll("\t", Chr(9)).ReplaceAll("\n", EndOfLine)
+		Function Codepoint(Extends value As String) As Integer
+		  If value.Len= 0 Then Return 0 // sanity chk
+		  If value.LenB= 1 Then Return value.Asc
+		  
+		  Dim mb As MemoryBlock= value
+		  If mb.Size>= 4 Then
+		    Return mb.UInt32Value(0)
+		  ElseIf mb.Size= 2 Then
+		    Return mb.UInt16Value(0)
+		  Else
+		    Break // TODO: chk this
+		  End If
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function FrmtEsc(Extends value As String) As String
+		  Return value.ReplaceAll("\t", Chr(9)).ReplaceAll("\n", EndOfLine)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function IsLetter(Extends value As String) As Boolean
+		  If value.Len<> value.LenB Then Return True // TODO: chk unicode ranges
+		  
 		  Static rg As RegEx
 		  If rg Is Nil Then
 		    rg= New RegEx
@@ -25,8 +43,8 @@ Protected Module DragonBook
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub ResetPosition(Extends bs As BinaryStream)
-		  bs.Position= 0
+		Sub ResetPosition(Extends value As BinaryStream)
+		  value.Position= 0
 		End Sub
 	#tag EndMethod
 

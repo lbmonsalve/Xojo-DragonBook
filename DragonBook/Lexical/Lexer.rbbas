@@ -3,6 +3,27 @@ Protected Class Lexer
 	#tag Method, Flags = &h0
 		Sub Constructor(source As Readable)
 		  Self.source= source
+		  Init
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Constructor(source As String)
+		  'Dim mb As MemoryBlock= source
+		  'Constructor New BinaryStream(mb)
+		  buffer= source
+		  Init
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetLine() As Integer
+		  Return line
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Init()
 		  peek= " "
 		  
 		  words= New Dictionary
@@ -18,25 +39,21 @@ Protected Class Lexer
 		  Reserve(DragonBook.Symbols.Type.Float)
 		  Reserve(DragonBook.Symbols.Type.Char)
 		  Reserve(DragonBook.Symbols.Type.Bool)
+		  
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Constructor(source As String)
-		  Dim mb As MemoryBlock= source
-		  Constructor New BinaryStream(mb)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function GetLine() As Integer
-		  Return line
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Sub ReadCh()
-		  peek= source.Read(1)
+		  'peek= source.Read(1)
+		  If buffer.Len= 0 And Not (source Is Nil) Then
+		    buffer= source.Read(1024)
+		    bufferPos= 0
+		  End If
+		  
+		  bufferPos= bufferPos+ 1
+		  peek= buffer.Mid(bufferPos, 1)
+		  If bufferPos= buffer.Len Then buffer= ""
 		End Sub
 	#tag EndMethod
 
@@ -58,9 +75,16 @@ Protected Class Lexer
 
 	#tag Method, Flags = &h0
 		Function Scan() As Token
+		  Const TAB= 9
+		  #if TargetConsole
+		    Const LF= 10
+		  #else
+		    Const LF= 13
+		  #endif
+		  
 		  Do
-		    If peek= " " Or peek.Asc= TAB Then
-		    ElseIf peek.Asc= CR Then // peek.Asc= LF ?? dont why
+		    If peek= " " Or peek.Codepoint= TAB Then
+		    ElseIf peek.Codepoint= LF Then
 		      line= line+ 1
 		    Else
 		      Exit
@@ -137,12 +161,20 @@ Protected Class Lexer
 		    Return w
 		  End If
 		  
-		  Dim tok As New Token(peek.Asc)
+		  Dim tok As New Token(peek.Codepoint)
 		  peek= " "
 		  Return tok
 		End Function
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private buffer As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private bufferPos As Integer
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private line As Integer = 1
@@ -159,16 +191,6 @@ Protected Class Lexer
 	#tag Property, Flags = &h21
 		Private words As Dictionary
 	#tag EndProperty
-
-
-	#tag Constant, Name = CR, Type = Double, Dynamic = False, Default = \"13", Scope = Public
-	#tag EndConstant
-
-	#tag Constant, Name = LF, Type = Double, Dynamic = False, Default = \"10", Scope = Public
-	#tag EndConstant
-
-	#tag Constant, Name = TAB, Type = Double, Dynamic = False, Default = \"9", Scope = Public
-	#tag EndConstant
 
 
 	#tag ViewBehavior

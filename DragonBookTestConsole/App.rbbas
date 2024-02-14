@@ -12,7 +12,17 @@ Inherits ConsoleApplication
 		  Catch exc As RuntimeException
 		    Print "error "+ exc.Message+ EndOfLine
 		  End Try
-		  Dim s As String= Input
+		  
+		  
+		  'Dim sinp As Readable= StdIn
+		  'Dim sout As Writeable= StdOut
+		  'Dim buffer As String
+		  'Do
+		  'buffer= sinp.Read(1024)
+		  'Print "buffer.Len: "+ Str(buffer.Len)
+		  'Print ""
+		  'sout.Write buffer
+		  'Loop Until buffer.Right(1).Asc= 0
 		  
 		  
 		  'Dim sinp As Readable= StdIn

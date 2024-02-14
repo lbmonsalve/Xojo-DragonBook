@@ -224,7 +224,7 @@ Begin Window UnitTestWindow
          TabIndex        =   2
          TabPanelIndex   =   2
          TabStop         =   True
-         Text            =   "{\r\n	int a; int b; int c; int d;char s;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;s= ""hell-o"";\r\n}"
+         Text            =   "{\r\n	int a; int b; int c; int d;char ©;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;©= ""hell-o"";\r\n}"
          TextColor       =   &h000000
          TextFont        =   "System"
          TextSize        =   16
@@ -374,7 +374,9 @@ End
 		    Return
 		  End Try
 		  
-		  TextArea2.AppendText mb.StringValue(0, mb.Size)+ EndOfLine
+		  Dim output As String= DefineEncoding(mb.StringValue(0, mb.Size), Encodings.UTF8)
+		  
+		  TextArea2.AppendText output+ EndOfLine
 		  TextArea2.AppendText EndOfLine+ EndOfLine
 		End Sub
 	#tag EndEvent
