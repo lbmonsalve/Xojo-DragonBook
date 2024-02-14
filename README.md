@@ -28,7 +28,7 @@ rel     ->  expr '<' expr | expr '<=' expr | expr '>=' expr | expr '>' expr | ex
 expr    ->  expr '+' term | expr '-' term | term
 term    ->  term '*' unary | term '/' unary | unary
 unary   ->  '!' unary | '-' unary | factor
-factor  ->  ( bool ) | loc | NUM | REAL | CHAR | 'true' | 'false'
+factor  ->  '(' bool ')' | loc | NUM | REAL | CHAR | 'true' | 'false'
 
 BASIC   ->  'int' | 'float' | 'char' | 'bool'
 ID      ->  [a-zA-Z0-9_]+

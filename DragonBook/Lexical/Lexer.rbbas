@@ -47,7 +47,7 @@ Protected Class Lexer
 		Private Sub ReadCh()
 		  'peek= source.Read(1)
 		  If buffer.Len= 0 And Not (source Is Nil) Then
-		    buffer= source.Read(1024)
+		    buffer= DefineEncoding(source.Read(1024), Encodings.UTF8)
 		    bufferPos= 0
 		  End If
 		  

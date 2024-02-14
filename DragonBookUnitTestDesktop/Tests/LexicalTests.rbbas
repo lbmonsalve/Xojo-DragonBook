@@ -108,6 +108,15 @@ Inherits TestGroup
 		    Dim current As String= lexer.Scan.ToString
 		    Assert.AreEqual token.ToString, current, "AreEqual """+ current+ """"
 		  Next
+		  
+		  Assert.Message "stream:"
+		  Dim mb As MemoryBlock= kSource
+		  lexer= New DragonBook.Lexer(New BinaryStream(mb))
+		  
+		  For Each token As DragonBook.Lexical.Token In tokens
+		    Dim current As String= lexer.Scan.ToString
+		    Assert.AreEqual token.ToString, current, "AreEqual """+ current+ """"
+		  Next
 		End Sub
 	#tag EndMethod
 
