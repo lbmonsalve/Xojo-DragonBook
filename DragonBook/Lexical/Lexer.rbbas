@@ -77,14 +77,14 @@ Protected Class Lexer
 		Function Scan() As Token
 		  Const TAB= 9
 		  #if TargetConsole
-		    Const LF= 10
+		    Const EOL= 10 // LF
 		  #else
-		    Const LF= 13
+		    Const EOL= 13 // CR
 		  #endif
 		  
 		  Do
 		    If peek= " " Or peek.Codepoint= TAB Then
-		    ElseIf peek.Codepoint= LF Then
+		    ElseIf peek.Codepoint= EOL Then
 		      line= line+ 1
 		    Else
 		      Exit
