@@ -2,7 +2,7 @@
 Protected Module DragonBook
 	#tag Method, Flags = &h0
 		Function Codepoint(Extends value As String) As Integer
-		  If value.Len= 0 Then Return 0 // sanity chk
+		  If value.Len= 0 Then Return -1 // sanity chk
 		  If value.LenB= 1 Then Return value.Asc
 		  
 		  Dim mb As MemoryBlock= value

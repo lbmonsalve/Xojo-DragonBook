@@ -22,6 +22,21 @@ Protected Class Lexer
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function GetTokens() As Token()
+		  Dim tokens() As Token
+		  
+		  While True
+		    Dim token As Token= Scan
+		    If token.GetTag= -1 Then Exit
+		    
+		    tokens.Append token
+		  Wend
+		  
+		  Return tokens
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub Init()
 		  peek= " "
