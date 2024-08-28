@@ -224,7 +224,7 @@ Begin Window UnitTestWindow
          TabIndex        =   2
          TabPanelIndex   =   2
          TabStop         =   True
-         Text            =   "{\r\n	int a; int b; int c; int d;char ©;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b;©= ""hell-o"";\r\n}"
+         Text            =   "{\r\n	int a; int b; int c; int d;char Σ;\r\n	a = 9; b = 5; c = 2;\r\n	d = a + b * c + a * b; Σ= ""Sigma"";\r\n}"
          TextColor       =   &h000000
          TextFont        =   "System"
          TextSize        =   16
